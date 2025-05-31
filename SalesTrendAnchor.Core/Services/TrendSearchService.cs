@@ -7,12 +7,12 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
     private readonly IEnumerable<Sale> _sales = sales;
     public Task<IEnumerable<SaleTrend>> FilterSaleTrends()
     {
-
         var result = _sales
             .GroupBy(sale => new { sale.Product, sale.Buyer })
             .Where(HasAtLeastThreeSales)
             .Where(HasConsistentIntervals)
             .Select(CreateSaleTrend);
+
         return Task.FromResult(result.AsEnumerable());
     }
     private static bool HasAtLeastThreeSales(IGrouping<object, Sale> group)
@@ -26,10 +26,9 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
         if (intervals.Count == 0)
             return false;
 
-        var referenceDays = intervals[0].TotalDays;
+        var referenceDays = Math.Round(intervals[0].TotalDays);
         var toleranceDays = GetToleranceDays(referenceDays);
-
-        return intervals.All(interval => Math.Abs(interval.TotalDays - referenceDays) <= toleranceDays);
+        return intervals.All(interval => Math.Abs(Math.Round(interval.TotalDays) - referenceDays) <= toleranceDays);
     }
 
     private static List<TimeSpan> GetIntervals(List<Sale> orderedSales)
@@ -52,11 +51,16 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
     }
     private static double GetToleranceDays(double referenceDays)
     {
-        if (referenceDays <= 7)
-            return 1;
-        else if (referenceDays < 20)
-            return 2;
-        else
-            return 3;       
+        var tolerance = referenceDays switch
+        {
+            <= 7 => 1,
+            <= 15 => 2,
+            <= 30 => 3,
+            <= 60 => 5,
+            <= 90 => 7,
+            _ => 10
+        };
+
+        return tolerance;
     }
 }
