@@ -59,8 +59,8 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
 
         return new SaleTrend(
             lastSale.Product,
-            lastSale.Buyer, 
-            nextBuyDate, 
+            lastSale.Buyer,
+            nextBuyDate,
             lastSale.SaleDate);
     }
 

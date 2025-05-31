@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SalesTrendAnchor.Core.Entities;
+using SalesTrendAnchor.Core.Query.Abstractions;
 
 namespace SalesTrendAnchor.Core.Query;
 
-public record GetSaleTrendsQuery;
+public record GetSaleTrendsQuery : IQuery<IEnumerable<SaleTrend>>;

@@ -1,14 +1,10 @@
 ﻿using SalesTrendAnchor.Core.Entities;
+using SalesTrendAnchor.Core.Query.Abstractions;
 using SalesTrendAnchor.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SalesTrendAnchor.Core.Query.Handlers;
 
-public class GetSaleTrendsHandler
+public class GetSaleTrendsHandler : IQueryHandler<GetSaleTrendsQuery, IEnumerable<SaleTrend>>
 {
     private readonly ITrendSearchService _trendSearchService;
 
