@@ -1,37 +1,73 @@
 
 using SalesTrendAnchor.Core.Entities;
+using SalesTrendAnchor.Core.Query;
+using SalesTrendAnchor.Core.Query.Handlers;
 using SalesTrendAnchor.Core.Services;
 
-class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Register services and handlers
+builder.Services.AddSingleton<ITrendSearchService, TrendSearchService>(sp =>
 {
-    static async Task Main(string[] args)
+    var sales = new List<Sale>
     {
-        var sales = new List<Sale>
-        {
-            new Sale("ProductA", "Buyer1", 2, DateTime.UtcNow.AddDays(-10), 30),
-            new Sale("ProductA", "Buyer1", 3, DateTime.UtcNow.AddDays(-5), 30),
-            new Sale("ProductA", "Buyer1", 1, DateTime.UtcNow.AddDays(-1), 30),
-            new Sale("ProductB", "Buyer2", 5, DateTime.UtcNow.AddDays(-7), 30),
-            new Sale("ProductB", "Buyer2", 2, DateTime.UtcNow.AddDays(-3), 30),
-            new Sale("ProductC", "Buyer3", 5, DateTime.UtcNow.AddDays(-28), 30),
-            new Sale("ProductC", "Buyer3", 2, DateTime.UtcNow.AddDays(-23), 30),
-            new Sale("ProductC", "Buyer3", 5, DateTime.UtcNow.AddDays(-20), 30),
-            new Sale("ProductC", "Buyer3", 2, DateTime.UtcNow.AddDays(-16), 30),
-            new Sale("ProductD", "Buyer4", 5, DateTime.UtcNow.AddDays(-29), 30),
-            new Sale("ProductD", "Buyer4", 2, DateTime.UtcNow.AddDays(-23), 30),
-            new Sale("ProductD", "Buyer4", 5, DateTime.UtcNow.AddDays(-17), 30),
-            new Sale("ProductD", "Buyer4", 2, DateTime.UtcNow.AddDays(-7), 30),
-        };
+        new Sale("ProductA", "Buyer1", 2, DateTime.UtcNow.AddDays(-10), 30),
+        new Sale("ProductA", "Buyer1", 3, DateTime.UtcNow.AddDays(-5), 30),
+        new Sale("ProductA", "Buyer1", 1, DateTime.UtcNow.AddDays(-1), 30),
+        new Sale("ProductB", "Buyer2", 5, DateTime.UtcNow.AddDays(-7), 30),
+        new Sale("ProductB", "Buyer2", 2, DateTime.UtcNow.AddDays(-3), 30),
+        new Sale("ProductC", "Buyer3", 5, DateTime.UtcNow.AddDays(-28), 30),
+        new Sale("ProductC", "Buyer3", 2, DateTime.UtcNow.AddDays(-23), 30),
+        new Sale("ProductC", "Buyer3", 5, DateTime.UtcNow.AddDays(-20), 30),
+        new Sale("ProductC", "Buyer3", 2, DateTime.UtcNow.AddDays(-16), 30),
+        new Sale("ProductD", "Buyer4", 5, DateTime.UtcNow.AddDays(-29), 30),
+        new Sale("ProductD", "Buyer4", 2, DateTime.UtcNow.AddDays(-23), 30),
+        new Sale("ProductD", "Buyer4", 5, DateTime.UtcNow.AddDays(-17), 30),
+        new Sale("ProductD", "Buyer4", 2, DateTime.UtcNow.AddDays(-7), 30),
+    };
+    return new TrendSearchService(sales);
+});
 
-        var trendService = new TrendSearchService(sales);
-        var trends = await trendService.FilterSaleTrends();
+builder.Services.AddScoped<GetSaleTrendsHandler>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-        foreach (var trend in trends)
-        {
-            Console.WriteLine($"Product: {trend.Product}, Buyer: {trend.Buyer}, LastSaleDate: {trend.LastSaleDate}, NextBuyDate: {trend.NextBuyDate}");
-        }
-    }
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.MapGet("/api/sale-trends", async (GetSaleTrendsHandler handler) =>
+{
+    var result = await handler.Handle(new GetSaleTrendsQuery());
+    return Results.Ok(result);
+});
+
+app.Run();
+
+//using SalesTrendAnchor.Core.Entities;
+//using SalesTrendAnchor.Core.Services;
+
+//class Program
+//{
+//    static async Task Main(string[] args)
+//    {
+        
+
+//        var trendService = new TrendSearchService(sales);
+//        var trends = await trendService.FilterSaleTrends();
+
+//        foreach (var trend in trends)
+//        {
+//            Console.WriteLine($"Product: {trend.Product}, Buyer: {trend.Buyer}, LastSaleDate: {trend.LastSaleDate}, NextBuyDate: {trend.NextBuyDate}");
+//        }
+//    }
+//}
 //var builder = WebApplication.CreateBuilder(args);
 
 //// Add services to the container.
