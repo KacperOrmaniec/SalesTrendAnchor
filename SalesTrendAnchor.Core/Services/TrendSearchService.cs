@@ -20,8 +20,12 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
 
     private static bool HasConsistentIntervals(IGrouping<object, Sale> group)
     {
-        var orderedSales = group.OrderByDescending(sale => sale.SaleDate).ToList();
-        var intervals = GetIntervals(orderedSales);
+        var lastFiveSales = group
+            .OrderByDescending(sale => sale.SaleDate)
+            .Take(5)
+            .ToList();
+
+        var intervals = GetIntervals(lastFiveSales);
 
         if (intervals.Count == 0)
             return false;
@@ -44,11 +48,32 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
 
     private static SaleTrend CreateSaleTrend(IGrouping<object, Sale> group)
     {
-        var orderedSales = group.OrderByDescending(sale => sale.SaleDate).ToList();
-        var lastSale = orderedSales.First();
-        var nextBuyDate = DateTime.UtcNow;
-        return new SaleTrend(lastSale.Product, lastSale.Buyer, lastSale.Quantity, nextBuyDate, lastSale.SaleDate);
+        var lastFiveSales = group
+            .OrderByDescending(sale => sale.SaleDate)
+            .Take(5)
+            .ToList();
+
+        var lastSale = lastFiveSales.First();
+        var averageIntervalDays = CalculateAverageInterval(lastFiveSales);
+        var nextBuyDate = lastSale.SaleDate.AddDays(averageIntervalDays);
+
+        return new SaleTrend(
+            lastSale.Product,
+            lastSale.Buyer, 
+            nextBuyDate, 
+            lastSale.SaleDate);
     }
+
+    private static double CalculateAverageInterval(List<Sale> lastFiveSales)
+    {
+        var totalDays = 0.0;
+        for (int i = 1; i < lastFiveSales.Count; i++)
+        {
+            totalDays += (lastFiveSales[i - 1].SaleDate - lastFiveSales[i].SaleDate).TotalDays;
+        }
+        return totalDays / (lastFiveSales.Count - 1);
+    }
+
     private static double GetToleranceDays(double referenceDays)
     {
         var tolerance = referenceDays switch

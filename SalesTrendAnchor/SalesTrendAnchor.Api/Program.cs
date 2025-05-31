@@ -28,7 +28,7 @@ class Program
 
         foreach (var trend in trends)
         {
-            Console.WriteLine($"Product: {trend.Product}, Buyer: {trend.Buyer}, Quantity: {trend.Quantity}, LastSaleDate: {trend.LastSaleDate}, NextBuyDate: {trend.NextBuyDate}");
+            Console.WriteLine($"Product: {trend.Product}, Buyer: {trend.Buyer}, LastSaleDate: {trend.LastSaleDate}, NextBuyDate: {trend.NextBuyDate}");
         }
     }
 }
