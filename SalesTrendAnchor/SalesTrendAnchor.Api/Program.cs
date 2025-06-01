@@ -1,13 +1,11 @@
-
+using SalesTrendAnchor.Api;
 using SalesTrendAnchor.Api.Endpoints;
 using SalesTrendAnchor.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddCore();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddApi();
 
 var app = builder.Build();
 

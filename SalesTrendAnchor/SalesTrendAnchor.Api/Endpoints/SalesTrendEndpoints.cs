@@ -1,4 +1,6 @@
-﻿using SalesTrendAnchor.Core.Entities;
+﻿using AutoMapper;
+using SalesTrendAnchor.Api.DTO;
+using SalesTrendAnchor.Core.Entities;
 using SalesTrendAnchor.Core.Query;
 using SalesTrendAnchor.Core.Query.Handlers;
 
@@ -8,16 +10,24 @@ public static class SalesTrendEndpoints
 {
     public static void MapEndpoints(this WebApplication app)
     {
-        app.MapGet("/api/get-sale-trends", async (GetSaleTrendsHandler handler) =>
+        app.MapGet("/api/get-sale-trends", async (GetSaleTrendsHandler handler, IMapper mapper) =>
         {
             var result = await handler.Handle(new GetSaleTrendsQuery());
+            var resultDto = mapper.Map<IEnumerable<SaleTrendDto>>(result);
+            
             return Results.Ok(result);
         });
 
-        app.MapPost("/api/analyze-sales-trends", async (List<Sale> sales, GetSaleTrendsJsonHandler handler) =>
+        app.MapPost("/api/analyze-sales-trends", async (List<SaleDto> salesDto, GetSaleTrendsJsonHandler handler, IMapper mapper) =>
         {
+            var sales = mapper.Map<List<Sale>>(salesDto);
             var result = await handler.Handle(new GetSaleTrendsJsonQuery(sales));
-            return Results.Ok(result);
+
+            var resultDto = mapper.Map<List<SaleTrendDto>>(result);
+            
+            return Results.Ok(resultDto);
         });
     }
 }
+ 
+
