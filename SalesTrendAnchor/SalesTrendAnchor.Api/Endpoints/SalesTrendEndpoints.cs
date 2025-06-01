@@ -10,7 +10,7 @@ public static class SalesTrendEndpoints
 {
     public static void MapEndpoints(this WebApplication app)
     {
-        app.MapGet("/api/get-sale-trends", async (GetSaleTrendsHandler handler, IMapper mapper) =>
+        app.MapGet("analyze-in-memory-sale-trends", async (GetSaleTrendsHandler handler, IMapper mapper) =>
         {
             var result = await handler.Handle(new GetSaleTrendsQuery());
             var resultDto = mapper.Map<IEnumerable<SaleTrendDto>>(result);
@@ -18,7 +18,7 @@ public static class SalesTrendEndpoints
             return Results.Ok(result);
         });
 
-        app.MapPost("/api/analyze-sales-trends", async (List<SaleDto> salesDto, GetSaleTrendsJsonHandler handler, IMapper mapper) =>
+        app.MapPost("analyze-json-sales-trends", async (List<SaleDto> salesDto, GetSaleTrendsJsonHandler handler, IMapper mapper) =>
         {
             var sales = mapper.Map<List<Sale>>(salesDto);
             var result = await handler.Handle(new GetSaleTrendsJsonQuery(sales));
