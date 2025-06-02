@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesTrendAnchor.Api", "SalesTrendAnchor\SalesTrendAnchor.Api\SalesTrendAnchor.Api.csproj", "{7F1DB4B7-BDDA-4738-98A9-31CB67E14CA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesTrendAnchor.Core", "SalesTrendAnchor.Core\SalesTrendAnchor.Core.csproj", "{6A66A5BD-E751-43F4-9730-89B51C0594F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesTrendAnchor.Core", "SalesTrendAnchor\SalesTrendAnchor.Core\SalesTrendAnchor.Core.csproj", "{6A66A5BD-E751-43F4-9730-89B51C0594F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
