@@ -57,13 +57,14 @@ function App() {
         </Button>
       </div>
 
-      <div className="flex flex-col w-full h-screen">
+      <div class="flex flex-col w-full h-screen">
         <div class="flex flex-row justify-left items-center w-screen h-10 bg-white border-b-2 border-gray-50">
           <div class="px-2">Dashboard</div>
         </div>
 
-        <div className="flex-1 p-6 bg-gray-50 gap-4">
+        <div class="flex-1 p-6 bg-gray-50 flex flex-col gap-y-4">
           <Button
+            className="self-start"
             component="label"
             role={undefined}
             variant="contained"
@@ -79,7 +80,7 @@ function App() {
           </Button>
           <TableContainer component={Paper}>
             <Table
-              sx={{ minWidth: 650 }}
+              sx={{ minWidth: 350 }}
               size="small"
               aria-label="a dense table"
             >
