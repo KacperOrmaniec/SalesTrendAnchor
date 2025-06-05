@@ -62,53 +62,55 @@ function App() {
           <div class="px-2">Dashboard</div>
         </div>
 
-        <div class="flex-1 p-6 bg-gray-100 flex flex-col gap-y-4">
-          <Button
-            className="self-start"
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload files
-            <VisuallyHiddenInput
-              type="file"
-              onChange={(event) => console.log(event.target.files)}
-              multiple
-            />
-          </Button>
-          <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
-            <Table
-              sx={{ minWidth: 550 }}
-              size="small"
-              aria-label="a dense table"
+        <div class="flex-1 p-6 bg-gray-50 flex flex-col gap-y-4">
+          <Paper elevation={3}>
+            <Button
+              className="self-start"
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
             >
-              <TableHead>
-                <TableRow>
-                  <TableCell>Product</TableCell>
-                  <TableCell align="right">Quantity</TableCell>
-                  <TableCell align="right">Buyer</TableCell>
-                  <TableCell align="right">Sale Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row, idx) => (
-                  <TableRow
-                    key={idx}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.product}
-                    </TableCell>
-                    <TableCell align="right">{row.quantity}</TableCell>
-                    <TableCell align="right">{row.buyer}</TableCell>
-                    <TableCell align="right">{row.saleDate}</TableCell>
+              Upload files
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(event) => console.log(event.target.files)}
+                multiple
+              />
+            </Button>
+            <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
+              <Table
+                sx={{ minWidth: 550 }}
+                size="small"
+                aria-label="a dense table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Product</TableCell>
+                    <TableCell align="right">Quantity</TableCell>
+                    <TableCell align="right">Buyer</TableCell>
+                    <TableCell align="right">Sale Date</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row, idx) => (
+                    <TableRow
+                      key={idx}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.product}
+                      </TableCell>
+                      <TableCell align="right">{row.quantity}</TableCell>
+                      <TableCell align="right">{row.buyer}</TableCell>
+                      <TableCell align="right">{row.saleDate}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
         </div>
       </div>
     </div>
