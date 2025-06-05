@@ -62,7 +62,7 @@ function App() {
           <div class="px-2">Dashboard</div>
         </div>
 
-        <div class="flex-1 p-6 bg-gray-50 flex flex-col gap-y-4">
+        <div class="flex-1 p-6 bg-gray-100 flex flex-col gap-y-4">
           <Button
             className="self-start"
             component="label"
@@ -78,9 +78,9 @@ function App() {
               multiple
             />
           </Button>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
             <Table
-              sx={{ minWidth: 350 }}
+              sx={{ minWidth: 550 }}
               size="small"
               aria-label="a dense table"
             >
