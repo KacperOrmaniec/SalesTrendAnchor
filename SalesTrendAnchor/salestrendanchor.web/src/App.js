@@ -1,19 +1,10 @@
 import "./App.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import SalesDataTable from "./components/SalesDataTable";
 
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
@@ -99,39 +90,8 @@ function App() {
                 multiple
               />
             </Button>
-            <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
-              <Table
-                sx={{ minWidth: 550 }}
-                size="small"
-                aria-label="a dense table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Product</TableCell>
-                    <TableCell align="right">Quantity</TableCell>
-                    <TableCell align="right">Buyer</TableCell>
-                    <TableCell align="right">Sale Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row, idx) => (
-                    <TableRow
-                      key={idx}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.product}
-                      </TableCell>
-                      <TableCell align="right">{row.quantity}</TableCell>
-                      <TableCell align="right">{row.buyer}</TableCell>
-                      <TableCell align="right">{row.saleDate}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <SalesDataTable rows={rows} />
           </Paper>
-
           <Paper
             elevation={3}
             sx={{
