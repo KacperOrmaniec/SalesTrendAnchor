@@ -5,6 +5,8 @@ import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SalesDataTable from "./components/SalesDataTable";
+import Sidebar from "./components/Sidebar";
+import TopBar from "./components/TopBar";
 
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
@@ -47,23 +49,10 @@ const rows = [
 function App() {
   return (
     <div class="flex flex-row bg-gray-100">
-      <div class="flex flex-col items-center space-y-4 bg-white w-56 h-screen border-r-2 border-gray-50">
-        <div class="flex flex-row items-center justify-start w-full px-4 gap-2 mt-4">
-          <Avatar>KO</Avatar>
-          <div>logo</div>
-        </div>
-
-        <Button variant="text">Dashboard</Button>
-        <Button variant="outlined" color="error">
-          Logout
-        </Button>
-      </div>
+      <Sidebar />
 
       <div class="flex flex-col w-full h-screen">
-        <div class="flex flex-row justify-left items-center w-screen h-10 bg-white border-b-2 border-gray-50">
-          <div class="px-2">Dashboard</div>
-        </div>
-
+        <TopBar />
         <div class="flex-1 p-6 bg-gray-50 flex flex-row gap-y-4 gap-x-8">
           <Paper
             elevation={3}
