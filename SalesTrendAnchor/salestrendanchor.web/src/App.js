@@ -73,7 +73,7 @@ function App() {
           <div class="px-2">Dashboard</div>
         </div>
 
-        <div class="flex-1 p-6 bg-gray-50 flex flex-col gap-y-4">
+        <div class="flex-1 p-6 bg-gray-50 flex flex-row gap-y-4 gap-x-8">
           <Paper
             elevation={3}
             sx={{
@@ -131,6 +131,17 @@ function App() {
               </Table>
             </TableContainer>
           </Paper>
+
+          <Paper
+            elevation={3}
+            sx={{
+              maxWidth: 700,
+              padding: 3,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          ></Paper>
         </div>
       </div>
     </div>
