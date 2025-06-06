@@ -68,6 +68,8 @@ function App() {
           <Paper
             elevation={3}
             sx={{
+              alignSelf: "flex-start",
+              minHeight: 100,
               maxWidth: 700,
               padding: 3,
               display: "flex",
@@ -95,6 +97,7 @@ function App() {
           <Paper
             elevation={3}
             sx={{
+              minWidth: 300,
               maxWidth: 700,
               padding: 3,
               display: "flex",
