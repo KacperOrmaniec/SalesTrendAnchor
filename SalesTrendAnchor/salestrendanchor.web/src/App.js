@@ -35,6 +35,17 @@ const rows = [
   createData('Monitor Dell 24"', 5, "Jan Kowalski", "2025-06-02"),
   createData("Mysz Logitech MX Master", 2, "Piotr Zieliński", "2025-06-03"),
   createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
+  createData("Klawiatura Keychron K2", 1, "Maria Wiśniewska", "2025-06-03"),
   createData(
     "Słuchawki Sony WH-1000XM4",
     4,
@@ -63,7 +74,16 @@ function App() {
         </div>
 
         <div class="flex-1 p-6 bg-gray-50 flex flex-col gap-y-4">
-          <Paper elevation={3}>
+          <Paper
+            elevation={3}
+            sx={{
+              maxWidth: 700,
+              padding: 3,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
             <Button
               className="self-start"
               component="label"
