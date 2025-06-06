@@ -1,7 +1,6 @@
 import "./App.css";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SalesDataTable from "./components/SalesDataTable";
@@ -93,7 +92,14 @@ function App() {
               flexDirection: "column",
               gap: 2,
             }}
-          ></Paper>
+          >
+            <Paper elevation={2} sx={{ minWidth: 280, minHeight: 180 }}>
+              <h1>Upcoming Trend</h1>
+              <body>Trend cycle: every x days</body>
+              <body>Product: xyz</body>
+              <body>Buyer: xyz</body>
+            </Paper>
+          </Paper>
         </div>
       </div>
     </div>
