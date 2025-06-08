@@ -93,11 +93,20 @@ function App() {
               gap: 2,
             }}
           >
-            <Paper elevation={2} sx={{ minWidth: 280, minHeight: 180 }}>
-              <h1>Upcoming Trend</h1>
-              <body>Trend cycle: every x days</body>
-              <body>Product: xyz</body>
-              <body>Buyer: xyz</body>
+            <Paper elevation={2} sx={{ minWidth: 280, minHeight: 180, p: 2 }}>
+              <h2 class="font-bold text-lg mb-4">Upcoming Trend</h2>
+              <div class="mb-2">
+                <span class="font-semibold">Trend date:</span>{" "}
+                <span>2025-06-10</span>
+              </div>
+              <div class="mb-2">
+                <span class="font-semibold">Product:</span>{" "}
+                <span>Laptop Lenovo ThinkPad</span>
+              </div>
+              <div>
+                <span class="font-semibold">Buyer:</span>{" "}
+                <span>Anna Nowak</span>
+              </div>
             </Paper>
           </Paper>
         </div>
