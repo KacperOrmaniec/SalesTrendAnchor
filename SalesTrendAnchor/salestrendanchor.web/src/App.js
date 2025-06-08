@@ -1,8 +1,8 @@
 import "./App.css";
-import Paper from "@mui/material/Paper";
 import SalesDataTable from "./components/SalesDataTable";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
+import TrendList from "./components/TrendList";
 
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
@@ -38,33 +38,9 @@ function App() {
 
       <div class="flex flex-col w-full h-screen">
         <TopBar />
-        <div class="flex-1 p-6 bg-gray-50 flex flex-row gap-y-4 gap-x-8">
+        <div class="p-6 bg-gray-50 flex flex-row items-start gap-y-4 gap-x-8">
           <SalesDataTable rows={rows} />
-          <Paper
-            elevation={3}
-            sx={{
-              padding: 3,
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            <Paper elevation={2} sx={{ minWidth: 280, minHeight: 180, p: 2 }}>
-              <h2 class="font-bold text-lg mb-4">Upcoming Trend</h2>
-              <div class="mb-2">
-                <span class="font-semibold">Trend date:</span>{" "}
-                <span>2025-06-10</span>
-              </div>
-              <div class="mb-2">
-                <span class="font-semibold">Product:</span>{" "}
-                <span>Laptop Lenovo ThinkPad</span>
-              </div>
-              <div>
-                <span class="font-semibold">Buyer:</span>{" "}
-                <span>Anna Nowak</span>
-              </div>
-            </Paper>
-          </Paper>
+          <TrendList />
         </div>
       </div>
     </div>
