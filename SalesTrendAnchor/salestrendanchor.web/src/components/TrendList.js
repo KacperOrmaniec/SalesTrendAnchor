@@ -1,4 +1,64 @@
 import Paper from "@mui/material/Paper";
+import TrendCard from "./TrendCard";
+
+const trends = [
+  {
+    Id: "1",
+    Product: "Laptop Lenovo ThinkPad",
+    Buyer: "Anna Nowak",
+    LastSaleDate: "2025-06-01",
+    NextBuyDate: "2025-06-10",
+  },
+  {
+    Id: "2",
+    Product: 'Monitor Dell 24"',
+    Buyer: "Jan Kowalski",
+    LastSaleDate: "2025-06-02",
+    NextBuyDate: "2025-06-12",
+  },
+  {
+    Id: "3",
+    Product: "Mysz Logitech MX Master",
+    Buyer: "Piotr Zieliński",
+    LastSaleDate: "2025-06-03",
+    NextBuyDate: "2025-06-13",
+  },
+  {
+    Id: "4",
+    Product: "Klawiatura Keychron K2",
+    Buyer: "Maria Wiśniewska",
+    LastSaleDate: "2025-06-03",
+    NextBuyDate: "2025-06-14",
+  },
+  {
+    Id: "5",
+    Product: "Słuchawki Sony WH-1000XM4",
+    Buyer: "Tomasz Lewandowski",
+    LastSaleDate: "2025-06-04",
+    NextBuyDate: "2025-06-15",
+  },
+  {
+    Id: "6",
+    Product: "Kamera Logitech C920",
+    Buyer: "Katarzyna Nowicka",
+    LastSaleDate: "2025-06-05",
+    NextBuyDate: "2025-06-16",
+  },
+  {
+    Id: "7",
+    Product: "Tablet Apple iPad",
+    Buyer: "Marek Dąbrowski",
+    LastSaleDate: "2025-06-06",
+    NextBuyDate: "2025-06-17",
+  },
+  {
+    Id: "8",
+    Product: "Drukarka HP LaserJet",
+    Buyer: "Agnieszka Kwiatkowska",
+    LastSaleDate: "2025-06-07",
+    NextBuyDate: "2025-06-18",
+  },
+];
 
 function TrendList() {
   return (
@@ -9,22 +69,14 @@ function TrendList() {
         display: "flex",
         flexDirection: "column",
         gap: 2,
+        maxHeight: 820, // wysokość na ok. 3 trendy
+        overflowY: "auto",
+        minWidth: 320,
       }}
     >
-      <Paper elevation={2} sx={{ minWidth: 280, minHeight: 180, p: 2 }}>
-        <h2 className="font-bold text-lg mb-4">Upcoming Trend</h2>
-        <div className="mb-2">
-          <span className="font-semibold">Trend date:</span>{" "}
-          <span>2025-06-10</span>
-        </div>
-        <div className="mb-2">
-          <span className="font-semibold">Product:</span>{" "}
-          <span>Laptop Lenovo ThinkPad</span>
-        </div>
-        <div>
-          <span className="font-semibold">Buyer:</span> <span>Anna Nowak</span>
-        </div>
-      </Paper>
+      {trends.map((trend) => (
+        <TrendCard key={trend.Id} trend={trend} />
+      ))}
     </Paper>
   );
 }

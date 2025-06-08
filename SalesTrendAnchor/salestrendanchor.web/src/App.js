@@ -38,7 +38,7 @@ function App() {
 
       <div class="flex flex-col w-full h-screen">
         <TopBar />
-        <div class="p-6 bg-gray-50 flex flex-row items-start gap-y-4 gap-x-8">
+        <div class="p-6 flex flex-row items-start gap-y-4 gap-x-8">
           <SalesDataTable rows={rows} />
           <TrendList />
         </div>
