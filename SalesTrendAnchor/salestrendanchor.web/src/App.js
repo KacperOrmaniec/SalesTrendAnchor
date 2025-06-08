@@ -53,35 +53,7 @@ function App() {
       <div class="flex flex-col w-full h-screen">
         <TopBar />
         <div class="flex-1 p-6 bg-gray-50 flex flex-row gap-y-4 gap-x-8">
-          <Paper
-            elevation={3}
-            sx={{
-              alignSelf: "flex-start",
-              minHeight: 100,
-              maxWidth: 700,
-              padding: 3,
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            <Button
-              className="self-start"
-              component="label"
-              role={undefined}
-              variant="contained"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Upload files
-              <VisuallyHiddenInput
-                type="file"
-                onChange={(event) => console.log(event.target.files)}
-                multiple
-              />
-            </Button>
-            <SalesDataTable rows={rows} />
-          </Paper>
+          <SalesDataTable rows={rows} />
           <Paper
             elevation={3}
             sx={{
