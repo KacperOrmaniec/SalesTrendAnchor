@@ -1,8 +1,5 @@
 import "./App.css";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import SalesDataTable from "./components/SalesDataTable";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
@@ -10,17 +7,6 @@ import TopBar from "./components/TopBar";
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
 }
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 const rows = [
   createData("Laptop Lenovo ThinkPad", 3, "Anna Nowak", "2025-06-01"),
@@ -57,8 +43,6 @@ function App() {
           <Paper
             elevation={3}
             sx={{
-              minWidth: 300,
-              maxWidth: 700,
               padding: 3,
               display: "flex",
               flexDirection: "column",
