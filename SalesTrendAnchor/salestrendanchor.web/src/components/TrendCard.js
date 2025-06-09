@@ -1,24 +1,60 @@
 import Paper from "@mui/material/Paper";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, IconButton, Collapse } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
+import { useState } from 'react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 function TrendCard({ trend }) {
   const theme = useTheme();
+  const [expanded, setExpanded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Parse dates
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const nextBuyDate = new Date(trend.NextBuyDate);
+  nextBuyDate.setHours(0, 0, 0, 0);
+
+  let bgColor, statusTitle;
+  if (nextBuyDate > today) {
+    bgColor = theme.palette.success.main;
+    statusTitle = 'Upcoming sale';
+  } else if (nextBuyDate.getTime() === today.getTime()) {
+    bgColor = theme.palette.warning.main;
+    statusTitle = 'Sale should happen today';
+  } else {
+    bgColor = theme.palette.error.main;
+    statusTitle = 'Sale is overdue';
+  }
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
     <Paper
-      elevation={2}
+      elevation={isHovered ? 4 : 2}
       sx={{
         flexShrink: 0,
         minWidth: 280,
         minHeight: 120,
         p: 2,
         mb: 2,
-        transition: 'background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease-in-out',
         '&:hover': {
           boxShadow: theme.shadows[4],
+          transform: 'translateY(-2px)',
         },
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundColor: bgColor,
+        color: theme.palette.getContrastText(bgColor),
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleExpandClick}
     >
       <Typography 
         variant="h6" 
@@ -28,7 +64,7 @@ function TrendCard({ trend }) {
           transition: 'color 0.3s ease-in-out',
         }}
       >
-        Upcoming Trend
+        {statusTitle}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <Box>
@@ -39,7 +75,7 @@ function TrendCard({ trend }) {
               transition: 'color 0.3s ease-in-out',
             }}
           >
-            Expected Next Buy:
+            Expected next buy:
           </Typography>{" "}
           <Typography 
             component="span"
@@ -83,6 +119,24 @@ function TrendCard({ trend }) {
           </Typography>
         </Box>
       </Box>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${theme.palette.divider}` }}>
+          <Typography variant="body2" color="text.secondary">
+            Last sale: {trend.LastSaleDate}
+          </Typography>
+        </Box>
+      </Collapse>
+      <IconButton
+        sx={{
+          position: 'absolute',
+          bottom: 8,
+          right: 8,
+          transition: 'transform 0.3s ease-in-out',
+          transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+        }}
+      >
+        {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+      </IconButton>
     </Paper>
   );
 }

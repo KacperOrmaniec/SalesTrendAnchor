@@ -6,6 +6,7 @@ import TrendList from "./components/TrendList";
 import { ThemeProvider, CssBaseline, Box, Container } from '@mui/material';
 import { useState } from 'react';
 import { lightTheme, darkTheme } from './theme';
+import { NotificationProvider } from './components/NotificationManager';
 
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
@@ -37,53 +38,66 @@ const rows = [
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  // Funkcja do obsługi zmiany stanu zwinięcia sidebara (przekaż do Sidebar jako prop jeśli chcesz dynamicznie)
+  // const handleSidebarCollapse = (collapsed) => setSidebarCollapsed(collapsed);
+
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+      <NotificationProvider>
+        <CssBaseline />
         <Sidebar />
-        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-          <TopBar isDarkMode={isDarkMode} onThemeToggle={toggleTheme} />
-          <Container 
-            maxWidth="xl" 
-            sx={{ 
-              p: 3,
-              display: 'flex',
-              flexDirection: { xs: 'column', lg: 'row' },
-              gap: 3,
-              justifyContent: 'center',
-              alignItems: { xs: 'stretch', lg: 'flex-start' },
-              transition: 'padding 0.3s ease-in-out',
-            }}
-          >
-            <Box 
+        <Box
+          sx={{
+            display: 'flex',
+            minHeight: '100vh',
+            ml: { xs: '64px', sm: '224px' }, // domyślnie szerokość sidebara
+            transition: 'margin-left 0.3s ease-in-out',
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+            <TopBar isDarkMode={isDarkMode} onThemeToggle={toggleTheme} />
+            <Container 
+              maxWidth="xl" 
               sx={{ 
-                flex: { lg: '1 1 60%' },
+                p: 3,
                 display: 'flex',
+                flexDirection: { xs: 'column', lg: 'row' },
+                gap: 3,
                 justifyContent: 'center',
-                transition: 'all 0.3s ease-in-out',
+                alignItems: { xs: 'stretch', lg: 'flex-start' },
+                transition: 'padding 0.3s ease-in-out',
               }}
             >
-              <SalesDataTable rows={rows} />
-            </Box>
-            <Box 
-              sx={{ 
-                flex: { lg: '1 1 40%' },
-                display: 'flex',
-                justifyContent: 'center',
-                transition: 'all 0.3s ease-in-out',
-              }}
-            >
-              <TrendList />
-            </Box>
-          </Container>
+              <Box 
+                sx={{ 
+                  flex: { lg: '1 1 60%' },
+                  display: 'flex',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s ease-in-out',
+                }}
+              >
+                <SalesDataTable rows={rows} />
+              </Box>
+              <Box 
+                sx={{ 
+                  flex: { lg: '1 1 40%' },
+                  display: 'flex',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s ease-in-out',
+                }}
+              >
+                <TrendList />
+              </Box>
+            </Container>
+          </Box>
         </Box>
-      </Box>
+      </NotificationProvider>
     </ThemeProvider>
   );
 }

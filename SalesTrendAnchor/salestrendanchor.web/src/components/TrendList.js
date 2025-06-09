@@ -8,14 +8,14 @@ const trends = [
     Product: "Laptop Lenovo ThinkPad",
     Buyer: "Anna Nowak",
     LastSaleDate: "2025-06-01",
-    NextBuyDate: "2025-06-10",
+    NextBuyDate: "2025-06-09",
   },
   {
     Id: "2",
     Product: 'Monitor Dell 24"',
     Buyer: "Jan Kowalski",
     LastSaleDate: "2025-06-02",
-    NextBuyDate: "2025-06-12",
+    NextBuyDate: "2025-06-03",
   },
   {
     Id: "3",
@@ -61,9 +61,30 @@ const trends = [
   },
 ];
 
+function getTrendStatus(trend) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const nextBuyDate = new Date(trend.NextBuyDate);
+  nextBuyDate.setHours(0, 0, 0, 0);
+  if (nextBuyDate < today) return 0; // overdue (red)
+  if (nextBuyDate.getTime() === today.getTime()) return 1; // today (yellow)
+  return 2; // upcoming (green)
+}
+
 function TrendList() {
   const theme = useTheme();
-  
+
+  // Sort: overdue (0), today (1), upcoming (2), then by date ascending
+  const sortedTrends = [...trends].sort((a, b) => {
+    const statusA = getTrendStatus(a);
+    const statusB = getTrendStatus(b);
+    if (statusA !== statusB) return statusA - statusB;
+    // If same status, sort by date ascending
+    const dateA = new Date(a.NextBuyDate);
+    const dateB = new Date(b.NextBuyDate);
+    return dateA - dateB;
+  });
+
   return (
     <Paper
       elevation={3}
@@ -93,7 +114,7 @@ function TrendList() {
         },
       }}
     >
-      {trends.map((trend) => (
+      {sortedTrends.map((trend) => (
         <TrendCard key={trend.Id} trend={trend} />
       ))}
     </Paper>
