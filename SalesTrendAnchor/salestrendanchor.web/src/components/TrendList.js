@@ -83,6 +83,27 @@ function TrendList() {
     );
   }
 
+  if (trends.length === 0) {
+    return (
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: 200,
+        }}
+      >
+        <Alert severity="info" sx={{ width: "100%" }}>
+          There are no sales trends to display right now.
+          <br />
+          Please add more sales data, or check back later!
+        </Alert>
+      </Paper>
+    );
+  }
+
   return (
     <Paper
       elevation={3}
