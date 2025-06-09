@@ -1,5 +1,6 @@
 import Paper from "@mui/material/Paper";
 import TrendCard from "./TrendCard";
+import { useTheme } from '@mui/material/styles';
 
 const trends = [
   {
@@ -61,6 +62,8 @@ const trends = [
 ];
 
 function TrendList() {
+  const theme = useTheme();
+  
   return (
     <Paper
       elevation={3}
@@ -69,9 +72,25 @@ function TrendList() {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        maxHeight: 820, // wysokość na ok. 3 trendy
+        maxHeight: 820,
         overflowY: "auto",
         minWidth: 320,
+        transition: 'background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+        '&::-webkit-scrollbar': {
+          width: '8px',
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: theme.palette.background.paper,
+          transition: 'background-color 0.3s ease-in-out',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: theme.palette.divider,
+          borderRadius: '4px',
+          transition: 'background-color 0.3s ease-in-out',
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+          },
+        },
       }}
     >
       {trends.map((trend) => (

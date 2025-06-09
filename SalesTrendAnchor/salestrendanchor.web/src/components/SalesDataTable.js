@@ -32,6 +32,27 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out',
+  '&.MuiTableCell-head': {
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
+  },
+  '&.MuiTableCell-body': {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  transition: 'background-color 0.3s ease-in-out',
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -92,6 +113,7 @@ function TablePaginationActions(props) {
 }
 
 export default function SalesDataTable({ rows }) {
+  const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -118,15 +140,19 @@ export default function SalesDataTable({ rows }) {
         display: "flex",
         flexDirection: "column",
         gap: 2,
+        transition: 'background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
       }}
     >
       <Button
-        className="self-start"
         component="label"
         role={undefined}
         variant="contained"
         tabIndex={-1}
         startIcon={<CloudUploadIcon />}
+        sx={{
+          alignSelf: 'flex-start',
+          transition: 'background-color 0.3s ease-in-out',
+        }}
       >
         Upload files
         <VisuallyHiddenInput
@@ -139,10 +165,10 @@ export default function SalesDataTable({ rows }) {
         <Table sx={{ minWidth: 550 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              <TableCell>Product</TableCell>
-              <TableCell align="right">Quantity</TableCell>
-              <TableCell align="right">Buyer</TableCell>
-              <TableCell align="right">Sale Date</TableCell>
+              <StyledTableCell>Product</StyledTableCell>
+              <StyledTableCell align="right">Quantity</StyledTableCell>
+              <StyledTableCell align="right">Buyer</StyledTableCell>
+              <StyledTableCell align="right">Sale Date</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -150,19 +176,19 @@ export default function SalesDataTable({ rows }) {
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((row, idx) => (
-              <TableRow key={idx}>
-                <TableCell component="th" scope="row">
+              <StyledTableRow key={idx}>
+                <StyledTableCell component="th" scope="row">
                   {row.product}
-                </TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
-                <TableCell align="right">{row.buyer}</TableCell>
-                <TableCell align="right">{row.saleDate}</TableCell>
-              </TableRow>
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
+                <StyledTableCell align="right">{row.buyer}</StyledTableCell>
+                <StyledTableCell align="right">{row.saleDate}</StyledTableCell>
+              </StyledTableRow>
             ))}
             {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
+              <StyledTableRow style={{ height: 53 * emptyRows }}>
+                <StyledTableCell colSpan={6} />
+              </StyledTableRow>
             )}
           </TableBody>
           <TableFooter>
@@ -176,6 +202,11 @@ export default function SalesDataTable({ rows }) {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
+                sx={{
+                  '.MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel': {
+                    transition: 'color 0.3s ease-in-out',
+                  },
+                }}
               />
             </TableRow>
           </TableFooter>
