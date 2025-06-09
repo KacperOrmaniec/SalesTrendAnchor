@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Avatar, 
   Button, 
@@ -20,10 +20,18 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-function Sidebar() {
+const EXPANDED_WIDTH = 224;
+const COLLAPSED_WIDTH = 64;
+const TEXT_SHOW_WIDTH = 100; // px
+
+function Sidebar({ collapsed, onCollapseChange }) {
   const theme = useTheme();
-  const [collapsed, setCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState('dashboard');
+  const [sidebarWidth, setSidebarWidth] = useState(collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH);
+
+  useEffect(() => {
+    setSidebarWidth(collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH);
+  }, [collapsed]);
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <DashboardIcon /> },
@@ -35,15 +43,20 @@ function Sidebar() {
     setActiveItem(itemId);
   };
 
+  useEffect(() => {
+    if (onCollapseChange) onCollapseChange(collapsed);
+    // eslint-disable-next-line
+  }, [collapsed]);
+
   return (
     <Paper
       elevation={0}
       sx={{
-        width: collapsed ? 64 : 224,
+        width: sidebarWidth,
         height: '100vh',
         borderRight: `1px solid ${theme.palette.divider}`,
         backgroundColor: theme.palette.background.paper,
-        transition: 'all 0.3s ease-in-out',
+        transition: 'width 0.3s cubic-bezier(0.4,0,0.2,1)',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
@@ -65,15 +78,16 @@ function Sidebar() {
           width: collapsed ? 32 : 40,
           height: collapsed ? 32 : 40,
         }}>KO</Avatar>
-        {!collapsed && (
-          <Box sx={{ 
-            color: 'text.primary',
-            transition: 'opacity 0.3s ease-in-out',
-            opacity: collapsed ? 0 : 1,
-          }}>
-            logo
-          </Box>
-        )}
+        <Box sx={{ 
+          color: 'text.primary',
+          transition: 'opacity 0.3s ease-in-out, width 0.3s cubic-bezier(0.4,0,0.2,1)',
+          opacity: collapsed ? 0 : 1,
+          width: collapsed ? 0 : 'auto',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+        }} aria-hidden={collapsed}>
+          logo
+        </Box>
       </Box>
 
       <List sx={{ flexGrow: 1, pt: 2 }}>
@@ -108,15 +122,17 @@ function Sidebar() {
               >
                 {item.icon}
               </ListItemIcon>
-              {!collapsed && (
-                <ListItemText 
-                  primary={item.label}
-                  sx={{ 
-                    opacity: collapsed ? 0 : 1,
-                    transition: 'opacity 0.3s ease-in-out',
-                  }}
-                />
-              )}
+              <ListItemText 
+                primary={item.label}
+                sx={{ 
+                  opacity: collapsed ? 0 : 1,
+                  width: collapsed ? 0 : 'auto',
+                  transition: 'opacity 0.3s ease-in-out, width 0.3s cubic-bezier(0.4,0,0.2,1)',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                }}
+                aria-hidden={collapsed}
+              />
             </ListItem>
           </Tooltip>
         ))}
@@ -138,13 +154,22 @@ function Sidebar() {
               transition: 'all 0.3s ease-in-out',
             }}
           >
-            {!collapsed && "Logout"}
+            <span style={{
+              opacity: collapsed ? 0 : 1,
+              width: collapsed ? 0 : 'auto',
+              transition: 'opacity 0.3s ease-in-out, width 0.3s cubic-bezier(0.4,0,0.2,1)',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+            }}
+            aria-hidden={collapsed}
+            >Logout</span>
           </Button>
         </Tooltip>
       </Box>
 
       <IconButton
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={() => onCollapseChange && onCollapseChange(!collapsed)}
         sx={{
           position: 'absolute',
           right: -12,

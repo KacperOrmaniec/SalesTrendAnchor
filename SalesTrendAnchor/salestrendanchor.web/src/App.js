@@ -44,24 +44,27 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  // Funkcja do obsługi zmiany stanu zwinięcia sidebara (przekaż do Sidebar jako prop jeśli chcesz dynamicznie)
-  // const handleSidebarCollapse = (collapsed) => setSidebarCollapsed(collapsed);
+  // Sidebar width: 224px (expanded), 64px (collapsed)
+  const sidebarWidth = sidebarCollapsed ? 64 : 224;
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <NotificationProvider>
         <CssBaseline />
-        <Sidebar />
+        <Sidebar collapsed={sidebarCollapsed} onCollapseChange={setSidebarCollapsed} />
         <Box
           sx={{
             display: 'flex',
             minHeight: '100vh',
-            ml: { xs: '64px', sm: '224px' }, // domyślnie szerokość sidebara
+            ml: `${sidebarWidth}px`,
             transition: 'margin-left 0.3s ease-in-out',
+            flexDirection: 'column',
           }}
         >
+          <Box sx={{ flexGrow: 0 }}>
+            <TopBar isDarkMode={isDarkMode} onThemeToggle={toggleTheme} sx={{ ml: 0 }} />
+          </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-            <TopBar isDarkMode={isDarkMode} onThemeToggle={toggleTheme} />
             <Container 
               maxWidth="xl" 
               sx={{ 
