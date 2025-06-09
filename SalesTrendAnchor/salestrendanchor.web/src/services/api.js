@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://localhost:7001"; // Adjust this to match your API's URL
+const API_BASE_URL = "https://localhost:7183";
 
 export const fetchSaleTrends = async () => {
   try {

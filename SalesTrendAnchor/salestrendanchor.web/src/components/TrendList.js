@@ -8,7 +8,7 @@ import { CircularProgress, Alert } from "@mui/material";
 function getTrendStatus(trend) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const nextBuyDate = new Date(trend.NextBuyDate);
+  const nextBuyDate = new Date(trend.nextBuyDate);
   nextBuyDate.setHours(0, 0, 0, 0);
   if (nextBuyDate < today) return 0; // overdue (red)
   if (nextBuyDate.getTime() === today.getTime()) return 1; // today (yellow)

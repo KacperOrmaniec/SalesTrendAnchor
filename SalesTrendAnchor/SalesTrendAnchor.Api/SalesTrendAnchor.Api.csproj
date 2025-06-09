@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SalesTrendAnchor.Core\SalesTrendAnchor.Core.csproj" />
+    <ProjectReference Include="..\SalesTrendAnchor.Core\SalesTrendAnchor.Core.csproj" />
   </ItemGroup>
 
 </Project>
