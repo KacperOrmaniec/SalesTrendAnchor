@@ -115,7 +115,7 @@ function TablePaginationActions(props) {
 export default function SalesDataTable({ rows }) {
   const theme = useTheme();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -194,7 +194,7 @@ export default function SalesDataTable({ rows }) {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 40, 50]}
                 colSpan={4}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}

@@ -3,12 +3,9 @@ import SalesDataTable from "./components/SalesDataTable";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
 import TrendList from "./components/TrendList";
-import { ThemeProvider, CssBaseline, Box } from '@mui/material';
+import { ThemeProvider, CssBaseline, Box, Container } from '@mui/material';
 import { useState } from 'react';
 import { lightTheme, darkTheme } from './theme';
-import IconButton from '@mui/material/IconButton';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
@@ -51,26 +48,40 @@ function App() {
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <Sidebar />
         <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-          <TopBar />
-          <Box sx={{ p: 3, display: 'flex', gap: 3 }}>
-            <IconButton 
-              onClick={toggleTheme} 
-              color="inherit"
+          <TopBar isDarkMode={isDarkMode} onThemeToggle={toggleTheme} />
+          <Container 
+            maxWidth="xl" 
+            sx={{ 
+              p: 3,
+              display: 'flex',
+              flexDirection: { xs: 'column', lg: 'row' },
+              gap: 3,
+              justifyContent: 'center',
+              alignItems: { xs: 'stretch', lg: 'flex-start' },
+              transition: 'padding 0.3s ease-in-out',
+            }}
+          >
+            <Box 
               sx={{ 
-                position: 'fixed', 
-                top: '1rem', 
-                right: '1rem',
-                transition: 'transform 0.3s ease-in-out',
-                '&:hover': {
-                  transform: 'rotate(180deg)',
-                }
+                flex: { lg: '1 1 60%' },
+                display: 'flex',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease-in-out',
               }}
             >
-              {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
-            <SalesDataTable rows={rows} />
-            <TrendList />
-          </Box>
+              <SalesDataTable rows={rows} />
+            </Box>
+            <Box 
+              sx={{ 
+                flex: { lg: '1 1 40%' },
+                display: 'flex',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease-in-out',
+              }}
+            >
+              <TrendList />
+            </Box>
+          </Container>
         </Box>
       </Box>
     </ThemeProvider>
