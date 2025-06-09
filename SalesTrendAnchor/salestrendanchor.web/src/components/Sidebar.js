@@ -22,7 +22,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const EXPANDED_WIDTH = 224;
 const COLLAPSED_WIDTH = 64;
-const TEXT_SHOW_WIDTH = 100; // px
+const TEXT_CONTAINER_WIDTH = 120; // px
 
 function Sidebar({ collapsed, onCollapseChange }) {
   const theme = useTheme();
@@ -80,11 +80,13 @@ function Sidebar({ collapsed, onCollapseChange }) {
         }}>KO</Avatar>
         <Box sx={{ 
           color: 'text.primary',
-          transition: 'opacity 0.3s ease-in-out, width 0.3s cubic-bezier(0.4,0,0.2,1)',
+          transition: 'opacity 0.3s ease-in-out',
           opacity: collapsed ? 0 : 1,
-          width: collapsed ? 0 : 'auto',
+          width: `${TEXT_CONTAINER_WIDTH}px`,
           overflow: 'hidden',
           whiteSpace: 'nowrap',
+          ml: 1,
+          display: 'inline-block',
         }} aria-hidden={collapsed}>
           logo
         </Box>
@@ -122,17 +124,19 @@ function Sidebar({ collapsed, onCollapseChange }) {
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText 
-                primary={item.label}
-                sx={{ 
+              <Box
+                sx={{
                   opacity: collapsed ? 0 : 1,
-                  width: collapsed ? 0 : 'auto',
-                  transition: 'opacity 0.3s ease-in-out, width 0.3s cubic-bezier(0.4,0,0.2,1)',
+                  width: `${TEXT_CONTAINER_WIDTH}px`,
+                  transition: 'opacity 0.3s ease-in-out',
                   overflow: 'hidden',
                   whiteSpace: 'nowrap',
+                  display: 'inline-block',
                 }}
                 aria-hidden={collapsed}
-              />
+              >
+                {item.label}
+              </Box>
             </ListItem>
           </Tooltip>
         ))}
@@ -156,11 +160,12 @@ function Sidebar({ collapsed, onCollapseChange }) {
           >
             <span style={{
               opacity: collapsed ? 0 : 1,
-              width: collapsed ? 0 : 'auto',
-              transition: 'opacity 0.3s ease-in-out, width 0.3s cubic-bezier(0.4,0,0.2,1)',
+              width: `${TEXT_CONTAINER_WIDTH}px`,
+              transition: 'opacity 0.3s ease-in-out',
               overflow: 'hidden',
               whiteSpace: 'nowrap',
               display: 'inline-block',
+              marginLeft: 8,
             }}
             aria-hidden={collapsed}
             >Logout</span>
