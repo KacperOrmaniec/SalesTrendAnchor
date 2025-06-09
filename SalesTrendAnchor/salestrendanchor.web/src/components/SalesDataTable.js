@@ -33,22 +33,22 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out',
-  '&.MuiTableCell-head': {
+  transition: "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
+  "&.MuiTableCell-head": {
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
   },
-  '&.MuiTableCell-body': {
+  "&.MuiTableCell-body": {
     fontSize: 14,
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  transition: 'background-color 0.3s ease-in-out',
-  '&:nth-of-type(odd)': {
+  transition: "background-color 0.3s ease-in-out",
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
@@ -113,7 +113,6 @@ function TablePaginationActions(props) {
 }
 
 export default function SalesDataTable({ rows }) {
-  const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
@@ -140,7 +139,8 @@ export default function SalesDataTable({ rows }) {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        transition: 'background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+        transition:
+          "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
       }}
     >
       <Button
@@ -150,8 +150,8 @@ export default function SalesDataTable({ rows }) {
         tabIndex={-1}
         startIcon={<CloudUploadIcon />}
         sx={{
-          alignSelf: 'flex-start',
-          transition: 'background-color 0.3s ease-in-out',
+          alignSelf: "flex-start",
+          transition: "background-color 0.3s ease-in-out",
         }}
       >
         Upload files
@@ -203,9 +203,10 @@ export default function SalesDataTable({ rows }) {
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
                 sx={{
-                  '.MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel': {
-                    transition: 'color 0.3s ease-in-out',
-                  },
+                  ".MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel":
+                    {
+                      transition: "color 0.3s ease-in-out",
+                    },
                 }}
               />
             </TableRow>

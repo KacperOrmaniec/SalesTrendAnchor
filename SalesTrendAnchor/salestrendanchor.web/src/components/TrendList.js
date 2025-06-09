@@ -1,65 +1,9 @@
 import Paper from "@mui/material/Paper";
 import TrendCard from "./TrendCard";
-import { useTheme } from '@mui/material/styles';
-
-const trends = [
-  {
-    Id: "1",
-    Product: "Laptop Lenovo ThinkPad",
-    Buyer: "Anna Nowak",
-    LastSaleDate: "2025-06-01",
-    NextBuyDate: "2025-06-09",
-  },
-  {
-    Id: "2",
-    Product: 'Monitor Dell 24"',
-    Buyer: "Jan Kowalski",
-    LastSaleDate: "2025-06-02",
-    NextBuyDate: "2025-06-03",
-  },
-  {
-    Id: "3",
-    Product: "Mysz Logitech MX Master",
-    Buyer: "Piotr Zieliński",
-    LastSaleDate: "2025-06-03",
-    NextBuyDate: "2025-06-13",
-  },
-  {
-    Id: "4",
-    Product: "Klawiatura Keychron K2",
-    Buyer: "Maria Wiśniewska",
-    LastSaleDate: "2025-06-03",
-    NextBuyDate: "2025-06-14",
-  },
-  {
-    Id: "5",
-    Product: "Słuchawki Sony WH-1000XM4",
-    Buyer: "Tomasz Lewandowski",
-    LastSaleDate: "2025-06-04",
-    NextBuyDate: "2025-06-15",
-  },
-  {
-    Id: "6",
-    Product: "Kamera Logitech C920",
-    Buyer: "Katarzyna Nowicka",
-    LastSaleDate: "2025-06-05",
-    NextBuyDate: "2025-06-16",
-  },
-  {
-    Id: "7",
-    Product: "Tablet Apple iPad",
-    Buyer: "Marek Dąbrowski",
-    LastSaleDate: "2025-06-06",
-    NextBuyDate: "2025-06-17",
-  },
-  {
-    Id: "8",
-    Product: "Drukarka HP LaserJet",
-    Buyer: "Agnieszka Kwiatkowska",
-    LastSaleDate: "2025-06-07",
-    NextBuyDate: "2025-06-18",
-  },
-];
+import { useTheme } from "@mui/material/styles";
+import { useEffect, useState } from "react";
+import { fetchSaleTrends } from "../services/api";
+import { CircularProgress, Alert } from "@mui/material";
 
 function getTrendStatus(trend) {
   const today = new Date();
@@ -73,6 +17,26 @@ function getTrendStatus(trend) {
 
 function TrendList() {
   const theme = useTheme();
+  const [trends, setTrends] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadTrends = async () => {
+      try {
+        const data = await fetchSaleTrends();
+        setTrends(data);
+        setError(null);
+      } catch (err) {
+        setError("Failed to load trends. Please try again later.");
+        console.error("Error loading trends:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTrends();
+  }, []);
 
   // Sort: overdue (0), today (1), upcoming (2), then by date ascending
   const sortedTrends = [...trends].sort((a, b) => {
@@ -85,6 +49,40 @@ function TrendList() {
     return dateA - dateB;
   });
 
+  if (loading) {
+    return (
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: 200,
+        }}
+      >
+        <CircularProgress />
+      </Paper>
+    );
+  }
+
+  if (error) {
+    return (
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: 200,
+        }}
+      >
+        <Alert severity="error">{error}</Alert>
+      </Paper>
+    );
+  }
+
   return (
     <Paper
       elevation={3}
@@ -96,19 +94,20 @@ function TrendList() {
         maxHeight: 820,
         overflowY: "auto",
         minWidth: 320,
-        transition: 'background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-        '&::-webkit-scrollbar': {
-          width: '8px',
+        transition:
+          "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        "&::-webkit-scrollbar": {
+          width: "8px",
         },
-        '&::-webkit-scrollbar-track': {
+        "&::-webkit-scrollbar-track": {
           backgroundColor: theme.palette.background.paper,
-          transition: 'background-color 0.3s ease-in-out',
+          transition: "background-color 0.3s ease-in-out",
         },
-        '&::-webkit-scrollbar-thumb': {
+        "&::-webkit-scrollbar-thumb": {
           backgroundColor: theme.palette.divider,
-          borderRadius: '4px',
-          transition: 'background-color 0.3s ease-in-out',
-          '&:hover': {
+          borderRadius: "4px",
+          transition: "background-color 0.3s ease-in-out",
+          "&:hover": {
             backgroundColor: theme.palette.action.hover,
           },
         },
