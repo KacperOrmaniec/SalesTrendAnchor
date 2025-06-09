@@ -19,6 +19,7 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
+import CloseIcon from "@mui/icons-material/Close";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -112,7 +113,7 @@ function TablePaginationActions(props) {
   );
 }
 
-export default function SalesDataTable({ rows }) {
+export default function SalesDataTable({ rows, onReset }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
@@ -143,24 +144,33 @@ export default function SalesDataTable({ rows }) {
           "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
       }}
     >
-      <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        tabIndex={-1}
-        startIcon={<CloudUploadIcon />}
-        sx={{
-          alignSelf: "flex-start",
-          transition: "background-color 0.3s ease-in-out",
-        }}
-      >
-        Upload files
-        <VisuallyHiddenInput
-          type="file"
-          onChange={(event) => console.log(event.target.files)}
-          multiple
-        />
-      </Button>
+      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<CloudUploadIcon />}
+          sx={{ transition: "background-color 0.3s ease-in-out" }}
+        >
+          Upload files
+          <VisuallyHiddenInput
+            type="file"
+            onChange={(event) => console.log(event.target.files)}
+            multiple
+          />
+        </Button>
+        {typeof onReset === "function" && (
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<CloseIcon />}
+            onClick={onReset}
+          >
+            Reset data
+          </Button>
+        )}
+      </Box>
       <TableContainer>
         <Table sx={{ minWidth: 550 }} size="small" aria-label="a dense table">
           <TableHead>
