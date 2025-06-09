@@ -1,18 +1,49 @@
 import React from "react";
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button, Box, Paper } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 
 function Sidebar() {
+  const theme = useTheme();
+
   return (
-    <div className="flex flex-col items-center space-y-4 bg-white w-56 h-screen border-r-2 border-gray-50">
-      <div className="flex flex-row items-center justify-start w-full px-4 gap-2 mt-4">
+    <Paper
+      elevation={0}
+      sx={{
+        width: 224,
+        height: '100vh',
+        borderRight: `1px solid ${theme.palette.divider}`,
+        backgroundColor: theme.palette.background.paper,
+        transition: 'background-color 0.3s ease-in-out',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+        p: 2,
+      }}
+    >
+      <Box sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: 1,
+        width: '100%',
+        px: 2,
+        mt: 2
+      }}>
         <Avatar>KO</Avatar>
-        <div>logo</div>
-      </div>
-      <Button variant="text">Dashboard</Button>
-      <Button variant="outlined" color="error">
+        <Box sx={{ color: 'text.primary' }}>logo</Box>
+      </Box>
+      <Button variant="text" fullWidth sx={{ justifyContent: 'flex-start' }}>
+        Dashboard
+      </Button>
+      <Button 
+        variant="outlined" 
+        color="error"
+        fullWidth
+        sx={{ mt: 'auto', mb: 2 }}
+      >
         Logout
       </Button>
-    </div>
+    </Paper>
   );
 }
 

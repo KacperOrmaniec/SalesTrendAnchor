@@ -1,10 +1,26 @@
 import React from "react";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 
 function TopBar() {
+  const theme = useTheme();
+  
   return (
-    <div className="flex flex-row justify-left items-center w-screen h-10 bg-white border-b-2 border-gray-50">
-      <div className="px-2">Dashboard</div>
-    </div>
+    <AppBar 
+      position="static" 
+      elevation={0}
+      sx={{
+        backgroundColor: theme.palette.background.paper,
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        transition: 'background-color 0.3s ease-in-out',
+      }}
+    >
+      <Toolbar>
+        <Typography variant="h6" color="text.primary">
+          Dashboard
+        </Typography>
+      </Toolbar>
+    </AppBar>
   );
 }
 

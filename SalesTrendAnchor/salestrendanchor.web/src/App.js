@@ -3,6 +3,12 @@ import SalesDataTable from "./components/SalesDataTable";
 import Sidebar from "./components/Sidebar";
 import TopBar from "./components/TopBar";
 import TrendList from "./components/TrendList";
+import { ThemeProvider, CssBaseline, Box } from '@mui/material';
+import { useState } from 'react';
+import { lightTheme, darkTheme } from './theme';
+import IconButton from '@mui/material/IconButton';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 function createData(product, quantity, buyer, saleDate) {
   return { product, quantity, buyer, saleDate };
@@ -31,19 +37,43 @@ const rows = [
     "2025-06-04"
   ),
 ];
-function App() {
-  return (
-    <div class="flex flex-row bg-gray-100">
-      <Sidebar />
 
-      <div class="flex flex-col w-full h-screen">
-        <TopBar />
-        <div class="p-6 flex flex-row items-start gap-y-4 gap-x-8">
-          <SalesDataTable rows={rows} />
-          <TrendList />
-        </div>
-      </div>
-    </div>
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  return (
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        <Sidebar />
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+          <TopBar />
+          <Box sx={{ p: 3, display: 'flex', gap: 3 }}>
+            <IconButton 
+              onClick={toggleTheme} 
+              color="inherit"
+              sx={{ 
+                position: 'fixed', 
+                top: '1rem', 
+                right: '1rem',
+                transition: 'transform 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'rotate(180deg)',
+                }
+              }}
+            >
+              {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+            <SalesDataTable rows={rows} />
+            <TrendList />
+          </Box>
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 }
 
