@@ -7,7 +7,6 @@ import { ThemeProvider, CssBaseline, Box, Container } from "@mui/material";
 import { useState } from "react";
 import { lightTheme, darkTheme } from "./theme";
 import { NotificationProvider } from "./components/NotificationManager";
-import ImportPrompt from "./components/ImportPrompt";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -57,21 +56,11 @@ function App() {
                 transition: "padding 0.3s ease-in-out",
               }}
             >
-              <Box
-                sx={{
-                  flex: { lg: "1 1 60%" },
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  transition: "all 0.3s ease-in-out",
-                }}
-              >
-                {rows.length === 0 ? (
-                  <ImportPrompt onFileImported={setRows} />
-                ) : (
-                  <SalesDataTable rows={rows} onReset={() => setRows([])} />
-                )}
-              </Box>
+              <SalesDataTable
+                rows={rows}
+                onReset={() => setRows([])}
+                onFileImported={setRows}
+              />
               <Box
                 sx={{
                   flex: { lg: "1 1 40%" },

@@ -20,6 +20,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import CloseIcon from "@mui/icons-material/Close";
+import ImportPrompt from "./ImportPrompt";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -113,7 +114,7 @@ function TablePaginationActions(props) {
   );
 }
 
-export default function SalesDataTable({ rows, onReset }) {
+export default function SalesDataTable({ rows, onReset, onFileImported }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
@@ -130,99 +131,124 @@ export default function SalesDataTable({ rows, onReset }) {
   };
 
   return (
-    <Paper
-      elevation={3}
+    <Box
       sx={{
-        alignSelf: "flex-start",
-        minHeight: 100,
-        maxWidth: 700,
-        padding: 3,
+        flex: { lg: "1 1 60%" },
         display: "flex",
         flexDirection: "column",
-        gap: 2,
-        transition:
-          "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        justifyContent: "center",
+        transition: "all 0.3s ease-in-out",
       }}
     >
-      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-          sx={{ transition: "background-color 0.3s ease-in-out" }}
+      {rows.length === 0 ? (
+        <ImportPrompt onFileImported={onFileImported} />
+      ) : (
+        <Paper
+          elevation={3}
+          sx={{
+            alignSelf: "flex-start",
+            minHeight: 100,
+            maxWidth: 700,
+            padding: 3,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            transition:
+              "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+          }}
         >
-          Upload files
-          <VisuallyHiddenInput
-            type="file"
-            onChange={(event) => console.log(event.target.files)}
-            multiple
-          />
-        </Button>
-        {typeof onReset === "function" && (
-          <Button
-            variant="contained"
-            color="error"
-            startIcon={<CloseIcon />}
-            onClick={onReset}
-          >
-            Reset data
-          </Button>
-        )}
-      </Box>
-      <TableContainer>
-        <Table sx={{ minWidth: 550 }} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Product</StyledTableCell>
-              <StyledTableCell align="right">Quantity</StyledTableCell>
-              <StyledTableCell align="right">Buyer</StyledTableCell>
-              <StyledTableCell align="right">Sale Date</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row, idx) => (
-              <StyledTableRow key={idx}>
-                <StyledTableCell component="th" scope="row">
-                  {row.product}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-                <StyledTableCell align="right">{row.buyer}</StyledTableCell>
-                <StyledTableCell align="right">{row.saleDate}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-            {emptyRows > 0 && (
-              <StyledTableRow style={{ height: 53 * emptyRows }}>
-                <StyledTableCell colSpan={6} />
-              </StyledTableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 40, 50]}
-                colSpan={4}
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-                sx={{
-                  ".MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel":
-                    {
-                      transition: "color 0.3s ease-in-out",
-                    },
-                }}
+          <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+              sx={{ transition: "background-color 0.3s ease-in-out" }}
+            >
+              Upload files
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(event) => console.log(event.target.files)}
+                multiple
               />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-    </Paper>
+            </Button>
+            {typeof onReset === "function" && (
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<CloseIcon />}
+                onClick={onReset}
+              >
+                Reset data
+              </Button>
+            )}
+          </Box>
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 550 }}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Product</StyledTableCell>
+                  <StyledTableCell align="right">Quantity</StyledTableCell>
+                  <StyledTableCell align="right">Buyer</StyledTableCell>
+                  <StyledTableCell align="right">Sale Date</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? rows.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : rows
+                ).map((row, idx) => (
+                  <StyledTableRow key={idx}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.product}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.quantity}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.buyer}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.saleDate}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+                {emptyRows > 0 && (
+                  <StyledTableRow style={{ height: 53 * emptyRows }}>
+                    <StyledTableCell colSpan={6} />
+                  </StyledTableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 40, 50]}
+                    colSpan={4}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                    sx={{
+                      ".MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel":
+                        {
+                          transition: "color 0.3s ease-in-out",
+                        },
+                    }}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Paper>
+      )}
+    </Box>
   );
 }
