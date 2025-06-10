@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const commonThemeSettings = {
   transitions: {
@@ -12,17 +12,18 @@ const commonThemeSettings = {
       leavingScreen: 195,
     },
     easing: {
-      easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-      easeOut: 'cubic-bezier(0.0, 0, 0.2, 1)',
-      easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
-      sharp: 'cubic-bezier(0.4, 0, 0.6, 1)',
+      easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easeOut: "cubic-bezier(0.0, 0, 0.2, 1)",
+      easeIn: "cubic-bezier(0.4, 0, 1, 1)",
+      sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
     },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out',
+          transition:
+            "background-color 0.3s ease-in-out, color 0.3s ease-in-out",
         },
       },
     },
@@ -32,13 +33,13 @@ const commonThemeSettings = {
 const lightTheme = createTheme({
   ...commonThemeSettings,
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#4CAF50', // jasny zielony
+      main: "#4CAF50", // jasny zielony
     },
     background: {
-      default: '#f5f5f5',
-      paper: '#ffffff',
+      default: "#f5f5f5",
+      paper: "#ffffff",
     },
   },
 });
@@ -46,15 +47,15 @@ const lightTheme = createTheme({
 const darkTheme = createTheme({
   ...commonThemeSettings,
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: '#4CAF50', // jasny zielony
+      main: "#4CAF50", // jasny zielony
     },
     background: {
-      default: '#121212',
-      paper: '#1e1e1e',
+      default: "#121212",
+      paper: "#1e1e1e",
     },
   },
 });
 
-export { lightTheme, darkTheme }; 
+export { lightTheme, darkTheme };

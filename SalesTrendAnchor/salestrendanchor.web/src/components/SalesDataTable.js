@@ -162,6 +162,7 @@ export default function SalesDataTable({ rows, onReset, onFileImported }) {
               component="label"
               role={undefined}
               variant="contained"
+              color="success"
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
               sx={{ transition: "background-color 0.3s ease-in-out" }}
