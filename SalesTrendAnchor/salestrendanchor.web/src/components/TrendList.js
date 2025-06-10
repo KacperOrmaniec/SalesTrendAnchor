@@ -2,7 +2,6 @@ import Paper from "@mui/material/Paper";
 import TrendCard from "./TrendCard";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { fetchSaleTrends } from "../services/api";
 import { CircularProgress, Alert } from "@mui/material";
 
 function getTrendStatus(trend) {
@@ -15,75 +14,21 @@ function getTrendStatus(trend) {
   return 2; // upcoming (green)
 }
 
-function TrendList() {
+function TrendList({ trendCards }) {
   const theme = useTheme();
-  const [trends, setTrends] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const loadTrends = async () => {
-      try {
-        const data = await fetchSaleTrends();
-        setTrends(data);
-        setError(null);
-      } catch (err) {
-        setError("Failed to load trends. Please try again later.");
-        console.error("Error loading trends:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadTrends();
-  }, []);
 
   // Sort: overdue (0), today (1), upcoming (2), then by date ascending
-  const sortedTrends = [...trends].sort((a, b) => {
+  const sortedTrends = [...trendCards].sort((a, b) => {
     const statusA = getTrendStatus(a);
     const statusB = getTrendStatus(b);
     if (statusA !== statusB) return statusA - statusB;
     // If same status, sort by date ascending
-    const dateA = new Date(a.NextBuyDate);
-    const dateB = new Date(b.NextBuyDate);
+    const dateA = new Date(a.nextBuyDate);
+    const dateB = new Date(b.nextBuyDate);
     return dateA - dateB;
   });
 
-  if (loading) {
-    return (
-      <Paper
-        elevation={3}
-        sx={{
-          padding: 3,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: 200,
-        }}
-      >
-        <CircularProgress />
-      </Paper>
-    );
-  }
-
-  if (error) {
-    return (
-      <Paper
-        elevation={3}
-        sx={{
-          padding: 3,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: 200,
-        }}
-      >
-        <Alert severity="error">{error}</Alert>
-      </Paper>
-    );
-  }
-
-  if (trends.length === 0) {
+  if (!trendCards || trendCards.length === 0) {
     return (
       <Paper
         elevation={3}
@@ -98,7 +43,7 @@ function TrendList() {
         <Alert severity="info" sx={{ width: "100%" }}>
           There are no sales trends to display right now.
           <br />
-          Please add more sales data, or check back later!
+          Upload sales data to see trends!
         </Alert>
       </Paper>
     );
@@ -135,7 +80,7 @@ function TrendList() {
       }}
     >
       {sortedTrends.map((trend) => (
-        <TrendCard key={trend.Id} trend={trend} />
+        <TrendCard key={trend.id} trend={trend} />
       ))}
     </Paper>
   );

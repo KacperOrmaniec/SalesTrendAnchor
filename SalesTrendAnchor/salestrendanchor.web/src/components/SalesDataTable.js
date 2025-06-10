@@ -21,6 +21,9 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import CloseIcon from "@mui/icons-material/Close";
 import ImportPrompt from "./ImportPrompt";
+import { useNotification } from "./NotificationManager";
+import Papa from "papaparse";
+import * as XLSX from "xlsx";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -113,10 +116,16 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-
-export default function SalesDataTable({ rows, onReset, onFileImported }) {
+const API_BASE_URL = "https://localhost:7183";
+export default function SalesDataTable({
+  rows,
+  onReset,
+  onFileImported,
+  onTrendsAnalyzed,
+}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+  const { showNotification } = useNotification();
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -130,6 +139,78 @@ export default function SalesDataTable({ rows, onReset, onFileImported }) {
     setPage(0);
   };
 
+  const processDataAndCallApi = async (newData) => {
+    const combinedData = [...rows, ...newData];
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/analyze-json-sales-trends`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(combinedData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const trendData = await response.json();
+      console.log("Received trendData from API:", trendData);
+      if (onFileImported) {
+        onFileImported(combinedData, trendData);
+      }
+      showNotification(
+        "Sales data and trends imported successfully!",
+        "success"
+      );
+    } catch (error) {
+      console.error("Error importing file or analyzing trends:", error);
+      showNotification(`Error: ${error.message}`, "error");
+    }
+  };
+
+  const handleCsvUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          if (results.errors.length) {
+            showNotification("Failed to parse CSV file.", "error");
+          } else {
+            processDataAndCallApi(results.data);
+          }
+        },
+        error: () => showNotification("Failed to parse CSV file.", "error"),
+      });
+    }
+  };
+
+  const handleExcelUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array" });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const json = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+          processDataAndCallApi(json);
+        } catch (error) {
+          showNotification("Failed to parse Excel file.", "error");
+          console.error("Error parsing Excel file:", error);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -141,7 +222,10 @@ export default function SalesDataTable({ rows, onReset, onFileImported }) {
       }}
     >
       {rows.length === 0 ? (
-        <ImportPrompt onFileImported={onFileImported} />
+        <ImportPrompt
+          onFileImported={onFileImported}
+          onTrendsAnalyzed={onTrendsAnalyzed}
+        />
       ) : (
         <Paper
           elevation={3}
@@ -165,13 +249,27 @@ export default function SalesDataTable({ rows, onReset, onFileImported }) {
               color="success"
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
-              sx={{ transition: "background-color 0.3s ease-in-out" }}
             >
-              Upload files
+              Upload CSV
               <VisuallyHiddenInput
                 type="file"
-                onChange={(event) => console.log(event.target.files)}
-                multiple
+                accept=".csv"
+                onChange={handleCsvUpload}
+              />
+            </Button>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              color="success"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload Excel
+              <VisuallyHiddenInput
+                type="file"
+                accept=".xls,.xlsx"
+                onChange={handleExcelUpload}
               />
             </Button>
             {typeof onReset === "function" && (

@@ -12,9 +12,15 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [rows, setRows] = useState([]);
+  const [trendCards, setTrendCards] = useState([]);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
+  };
+
+  const handleFileImported = (salesData, trendData) => {
+    setRows(salesData);
+    setTrendCards(trendData);
   };
 
   const sidebarWidth = sidebarCollapsed ? 64 : 224;
@@ -58,8 +64,12 @@ function App() {
             >
               <SalesDataTable
                 rows={rows}
-                onReset={() => setRows([])}
-                onFileImported={setRows}
+                onReset={() => {
+                  setRows([]);
+                  setTrendCards([]);
+                }}
+                onFileImported={handleFileImported}
+                onTrendsAnalyzed={setTrendCards}
               />
               <Box
                 sx={{
@@ -69,7 +79,7 @@ function App() {
                   transition: "all 0.3s ease-in-out",
                 }}
               >
-                <TrendList />
+                <TrendList trendCards={trendCards} />
               </Box>
             </Container>
           </Box>

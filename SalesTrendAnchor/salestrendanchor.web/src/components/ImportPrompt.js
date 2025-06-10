@@ -13,6 +13,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
+import { useNotification } from "./NotificationManager";
 
 const REQUIRED_COLUMNS = ["product", "quantity", "buyer", "saleDate"];
 
@@ -35,6 +36,39 @@ function ImportPrompt({ onFileImported, onReset }) {
   const [mapping, setMapping] = useState(null);
   const [columns, setColumns] = useState([]);
   const [mappingError, setMappingError] = useState(null);
+  const { showNotification } = useNotification();
+
+  const processDataAndCallApi = async (data) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/analyze-json-sales-trends`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const trendData = await response.json();
+      if (onFileImported) {
+        onFileImported(data, trendData); // Pass both sales data and trend data
+      }
+      showNotification(
+        "Sales data and trends imported successfully!",
+        "success"
+      );
+    } catch (apiError) {
+      console.error("Error analyzing trends:", apiError);
+      showNotification(`Error analyzing trends: ${apiError.message}`, "error");
+    }
+  };
+  const API_BASE_URL = "https://localhost:7183";
 
   const handleFileChange = (e) => {
     setError(null);
@@ -44,7 +78,7 @@ function ImportPrompt({ onFileImported, onReset }) {
     setMappingError(null);
     const file = e.target.files[0];
     if (!file) return;
-    const handleParsedData = (data) => {
+    const handleParsedData = async (data) => {
       const cols = getColumns(data);
       setColumns(cols);
       const lowerCols = cols.map((c) => c.trim().toLowerCase());
@@ -52,7 +86,7 @@ function ImportPrompt({ onFileImported, onReset }) {
         (col) => !lowerCols.includes(col)
       );
       if (missing.length === 0) {
-        onFileImported(data);
+        await processDataAndCallApi(data);
       } else {
         setRawData(data);
         const autoMapping = {};
@@ -70,24 +104,29 @@ function ImportPrompt({ onFileImported, onReset }) {
         complete: (results) => {
           if (results.errors.length) {
             setError("Failed to parse CSV file.");
+            showNotification("Failed to parse CSV file.", "error");
           } else {
             handleParsedData(results.data);
           }
         },
-        error: () => setError("Failed to parse CSV file."),
+        error: () => {
+          setError("Failed to parse CSV file.");
+          showNotification("Failed to parse CSV file.", "error");
+        },
       });
     } else if (fileType === "excel") {
       const reader = new FileReader();
-      reader.onload = (evt) => {
+      reader.onload = async (evt) => {
         try {
           const data = new Uint8Array(evt.target.result);
           const workbook = XLSX.read(data, { type: "array" });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
           const json = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-          handleParsedData(json);
+          await handleParsedData(json);
         } catch {
           setError("Failed to parse Excel file.");
+          showNotification("Failed to parse Excel file.", "error");
         }
       };
       reader.readAsArrayBuffer(file);
@@ -99,13 +138,17 @@ function ImportPrompt({ onFileImported, onReset }) {
     setMapping((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleMappingSubmit = () => {
+  const handleMappingSubmit = async () => {
     const selected = Object.values(mapping);
     if (
       selected.includes("") ||
       new Set(selected).size < REQUIRED_COLUMNS.length
     ) {
       setMappingError("Please map all required fields to unique columns.");
+      showNotification(
+        "Please map all required fields to unique columns.",
+        "error"
+      );
       return;
     }
     const mappedData = rawData.map((row) => {
@@ -115,7 +158,7 @@ function ImportPrompt({ onFileImported, onReset }) {
       });
       return mappedRow;
     });
-    onFileImported(mappedData);
+    await processDataAndCallApi(mappedData);
   };
 
   if (mapping && rawData) {
