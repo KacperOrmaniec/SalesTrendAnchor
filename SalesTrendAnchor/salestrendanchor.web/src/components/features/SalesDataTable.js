@@ -21,7 +21,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import CloseIcon from "@mui/icons-material/Close";
 import ImportPrompt from "./ImportPrompt";
-import { useNotification } from "./NotificationManager";
+import { useNotification } from "../common/NotificationManager";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 

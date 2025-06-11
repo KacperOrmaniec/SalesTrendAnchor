@@ -1,12 +1,12 @@
 import "./App.css";
-import SalesDataTable from "./components/SalesDataTable";
-import Sidebar from "./components/Sidebar";
-import TopBar from "./components/TopBar";
-import TrendList from "./components/TrendList";
+import SalesDataTable from "./components/features/SalesDataTable";
+import Sidebar from "./components/layout/Sidebar";
+import TopBar from "./components/layout/TopBar";
+import TrendList from "./components/features/TrendList";
 import { ThemeProvider, CssBaseline, Box, Container } from "@mui/material";
 import { useState } from "react";
 import { lightTheme, darkTheme } from "./theme";
-import { NotificationProvider } from "./components/NotificationManager";
+import { NotificationProvider } from "./components/common/NotificationManager";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);

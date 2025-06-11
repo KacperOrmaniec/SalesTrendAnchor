@@ -13,7 +13,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { useNotification } from "./NotificationManager";
+import { useNotification } from "../common/NotificationManager";
 
 const REQUIRED_COLUMNS = ["product", "quantity", "buyer", "saleDate"];
 
