@@ -116,7 +116,7 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-const API_BASE_URL = "https://localhost:7183";
+const API_BASE_URL = "http://stademo.runasp.net";
 export default function SalesDataTable({
   rows,
   onReset,

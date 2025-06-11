@@ -68,7 +68,7 @@ function ImportPrompt({ onFileImported, onReset }) {
       showNotification(`Error analyzing trends: ${apiError.message}`, "error");
     }
   };
-  const API_BASE_URL = "https://localhost:7183";
+  const API_BASE_URL = "http://stademo.runasp.net/";
 
   const handleFileChange = (e) => {
     setError(null);
