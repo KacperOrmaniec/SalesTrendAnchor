@@ -9,8 +9,15 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Card,
+  CardContent,
+  Stack,
+  Chip,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DescriptionIcon from "@mui/icons-material/Description";
+import TableViewIcon from "@mui/icons-material/TableView";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { useNotification } from "../common/NotificationManager";
@@ -52,7 +59,7 @@ function ImportPrompt({ onFileImported, onReset }) {
 
       const trendData = await response.json();
       if (onFileImported) {
-        onFileImported(data, trendData); // Pass both sales data and trend data
+        onFileImported(data, trendData);
       }
       showNotification(
         "Sales data and trends imported successfully!",
@@ -72,6 +79,7 @@ function ImportPrompt({ onFileImported, onReset }) {
     setMappingError(null);
     const file = e.target.files[0];
     if (!file) return;
+    
     const handleParsedData = async (data) => {
       const cols = getColumns(data);
       setColumns(cols);
@@ -91,6 +99,7 @@ function ImportPrompt({ onFileImported, onReset }) {
         setMapping(autoMapping);
       }
     };
+    
     if (fileType === "csv") {
       Papa.parse(file, {
         header: true,
@@ -157,128 +166,164 @@ function ImportPrompt({ onFileImported, onReset }) {
 
   if (mapping && rawData) {
     return (
-      <Paper
-        elevation={3}
+      <Card
         sx={{
-          p: 4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-          minHeight: 300,
+          maxWidth: 500,
+          mx: "auto",
+          mt: 4,
         }}
       >
-        <Typography variant="h6" gutterBottom>
-          Map your columns
-        </Typography>
-        <Typography variant="body1" align="center">
-          Please match each required field to a column from your file.
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            width: "100%",
-            maxWidth: 400,
-          }}
-        >
-          {REQUIRED_COLUMNS.map((field) => (
-            <FormControl fullWidth key={field}>
-              <InputLabel>{field}</InputLabel>
-              <Select
-                value={mapping[field]}
-                label={field}
-                onChange={(e) => handleMappingChange(field, e.target.value)}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {columns.map((col) => (
-                  <MenuItem value={col} key={col}>
-                    {col}
+        <CardContent sx={{ p: 4 }}>
+          <Typography variant="h5" gutterBottom sx={{ textAlign: "center", mb: 3 }}>
+            Map Your Columns
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", mb: 4 }}>
+            Match each required field to a column from your file
+          </Typography>
+          
+          <Stack spacing={3}>
+            {REQUIRED_COLUMNS.map((field) => (
+              <FormControl fullWidth key={field}>
+                <InputLabel sx={{ textTransform: "capitalize" }}>
+                  {field.replace(/([A-Z])/g, " $1")}
+                </InputLabel>
+                <Select
+                  value={mapping[field]}
+                  label={field.replace(/([A-Z])/g, " $1")}
+                  onChange={(e) => handleMappingChange(field, e.target.value)}
+                >
+                  <MenuItem value="">
+                    <em>Select column</em>
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          ))}
-        </Box>
-        {mappingError && <Alert severity="error">{mappingError}</Alert>}
-        <Button
-          variant="contained"
-          sx={{ mt: 2 }}
-          onClick={handleMappingSubmit}
-        >
-          Import data
-        </Button>
-      </Paper>
+                  {columns.map((col) => (
+                    <MenuItem value={col} key={col}>
+                      {col}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            ))}
+          </Stack>
+          
+          {mappingError && (
+            <Alert severity="error" sx={{ mt: 3 }}>
+              {mappingError}
+            </Alert>
+          )}
+          
+          <Button
+            variant="contained"
+            fullWidth
+            size="large"
+            sx={{ mt: 4 }}
+            onClick={handleMappingSubmit}
+          >
+            Import Data
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <Paper
-      elevation={3}
+    <Card
       sx={{
-        p: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
-        minHeight: 300,
+        maxWidth: 600,
+        mx: "auto",
+        mt: 4,
       }}
     >
-      <Typography variant="h6" gutterBottom>
-        No sales data available
-      </Typography>
-      <Typography variant="body1" align="center">
-        Please import a <b>CSV</b> or <b>Excel</b> file to get started!
-        <br />
-        Choose the file type and upload your sales data below.
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          width: "100%",
-          justifyContent: "center",
-        }}
-      >
-        <Button
-          variant={fileType === "csv" ? "contained" : "outlined"}
-          onClick={() => setFileType("csv")}
-        >
-          CSV
-        </Button>
-        <Button
-          variant={fileType === "excel" ? "contained" : "outlined"}
-          onClick={() => setFileType("excel")}
-        >
-          Excel
-        </Button>
-        {typeof onReset === "function" && (
+      <CardContent sx={{ p: 4, textAlign: "center" }}>
+        <Box sx={{ mb: 4 }}>
+          <CloudUploadIcon 
+            sx={{ 
+              fontSize: 64, 
+              color: "primary.main", 
+              mb: 2,
+              opacity: 0.8,
+            }} 
+          />
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+            Import Sales Data
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+            Upload your CSV or Excel file to analyze sales trends and get insights
+          </Typography>
+          
+          <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 4 }}>
+            {REQUIRED_COLUMNS.map((col) => (
+              <Chip 
+                key={col}
+                label={col.replace(/([A-Z])/g, " $1")}
+                size="small"
+                variant="outlined"
+                sx={{ textTransform: "capitalize" }}
+              />
+            ))}
+          </Stack>
+        </Box>
+
+        <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 4 }}>
           <Button
-            variant="contained"
-            color="error"
-            startIcon={<CloseIcon />}
-            onClick={onReset}
-            sx={{ ml: 2 }}
+            variant={fileType === "csv" ? "contained" : "outlined"}
+            startIcon={<DescriptionIcon />}
+            onClick={() => setFileType("csv")}
+            sx={{ minWidth: 120 }}
           >
-            Reset data
+            CSV File
           </Button>
+          <Button
+            variant={fileType === "excel" ? "contained" : "outlined"}
+            startIcon={<TableViewIcon />}
+            onClick={() => setFileType("excel")}
+            sx={{ minWidth: 120 }}
+          >
+            Excel File
+          </Button>
+        </Stack>
+
+        <Button
+          variant="contained"
+          component="label"
+          size="large"
+          startIcon={<CloudUploadIcon />}
+          sx={{ 
+            mb: 3,
+            minWidth: 200,
+            py: 1.5,
+          }}
+        >
+          Upload {fileType.toUpperCase()} File
+          <input
+            type="file"
+            accept={fileType === "csv" ? ".csv" : ".xls,.xlsx"}
+            hidden
+            ref={fileInputRef}
+            onChange={handleFileChange}
+          />
+        </Button>
+
+        {typeof onReset === "function" && (
+          <Box>
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<RestartAltIcon />}
+              onClick={onReset}
+              sx={{ mt: 2 }}
+            >
+              Reset Data
+            </Button>
+          </Box>
         )}
-      </Box>
-      <Button variant="contained" component="label" sx={{ mt: 2 }}>
-        Upload {fileType.toUpperCase()} File
-        <input
-          type="file"
-          accept={fileType === "csv" ? ".csv" : ".xls,.xlsx"}
-          hidden
-          ref={fileInputRef}
-          onChange={handleFileChange}
-        />
-      </Button>
-      {error && <Alert severity="error">{error}</Alert>}
-    </Paper>
+
+        {error && (
+          <Alert severity="error" sx={{ mt: 3, textAlign: "left" }}>
+            {error}
+          </Alert>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 

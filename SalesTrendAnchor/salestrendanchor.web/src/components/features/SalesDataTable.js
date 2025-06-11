@@ -12,6 +12,11 @@ import {
   IconButton,
   Box,
   Button,
+  Typography,
+  Card,
+  CardContent,
+  Stack,
+  Chip,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -19,7 +24,9 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import CloseIcon from "@mui/icons-material/Close";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import DescriptionIcon from "@mui/icons-material/Description";
+import TableViewIcon from "@mui/icons-material/TableView";
 import ImportPrompt from "./ImportPrompt";
 import { useNotification } from "../common/NotificationManager";
 import Papa from "papaparse";
@@ -43,16 +50,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   "&.MuiTableCell-head": {
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
+    fontWeight: 600,
+    fontSize: "0.875rem",
   },
   "&.MuiTableCell-body": {
-    fontSize: 14,
+    fontSize: "0.875rem",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  transition: "background-color 0.3s ease-in-out",
+  transition: "background-color 0.2s ease-in-out",
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
+  },
+  "&:hover": {
+    backgroundColor: theme.palette.action.selected,
   },
   "&:last-child td, &:last-child th": {
     border: 0,
@@ -82,6 +94,7 @@ function TablePaginationActions(props) {
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
+        size="small"
       >
         {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
@@ -89,6 +102,7 @@ function TablePaginationActions(props) {
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
+        size="small"
       >
         {theme.direction === "rtl" ? (
           <KeyboardArrowRight />
@@ -100,6 +114,7 @@ function TablePaginationActions(props) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
+        size="small"
       >
         {theme.direction === "rtl" ? (
           <KeyboardArrowLeft />
@@ -111,6 +126,7 @@ function TablePaginationActions(props) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
+        size="small"
       >
         {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
@@ -159,7 +175,6 @@ export default function SalesDataTable({
       }
 
       const trendData = await response.json();
-      console.log("Received trendData from API:", trendData);
       if (onFileImported) {
         onFileImported(combinedData, trendData);
       }
@@ -212,47 +227,34 @@ export default function SalesDataTable({
     }
   };
 
+  if (rows.length === 0) {
+    return <ImportPrompt onFileImported={onFileImported} onReset={onReset} />;
+  }
+
   return (
-    <Box
-      sx={{
-        flex: { lg: "1 1 60%" },
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        transition: "all 0.3s ease-in-out",
-      }}
-    >
-      {rows.length === 0 ? (
-        <ImportPrompt
-          onFileImported={onFileImported}
-          onTrendsAnalyzed={onTrendsAnalyzed}
-        />
-      ) : (
-        <Paper
-          elevation={3}
-          sx={{
-            alignSelf: "flex-start",
-            minHeight: 100,
-            maxWidth: 700,
-            padding: 3,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            transition:
-              "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+    <Card>
+      <CardContent sx={{ p: 0 }}>
+        <Box sx={{ p: 3, pb: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              Sales Data
+            </Typography>
+            <Chip 
+              label={`${rows.length} records`} 
+              color="primary" 
+              variant="outlined"
+              size="small"
+            />
+          </Box>
+          
+          <Stack direction="row" spacing={2} flexWrap="wrap">
             <Button
               component="label"
-              role={undefined}
-              variant="contained"
-              color="success"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-              sx={{ color: "#fff" }}
+              variant="outlined"
+              startIcon={<DescriptionIcon />}
+              size="small"
             >
-              Upload CSV
+              Add CSV
               <VisuallyHiddenInput
                 type="file"
                 accept=".csv"
@@ -261,14 +263,11 @@ export default function SalesDataTable({
             </Button>
             <Button
               component="label"
-              role={undefined}
-              variant="contained"
-              color="success"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-              sx={{ color: "#fff" }}
+              variant="outlined"
+              startIcon={<TableViewIcon />}
+              size="small"
             >
-              Upload Excel
+              Add Excel
               <VisuallyHiddenInput
                 type="file"
                 accept=".xls,.xlsx"
@@ -277,80 +276,78 @@ export default function SalesDataTable({
             </Button>
             {typeof onReset === "function" && (
               <Button
-                variant="contained"
+                variant="outlined"
                 color="error"
-                startIcon={<CloseIcon />}
+                startIcon={<RestartAltIcon />}
                 onClick={onReset}
+                size="small"
               >
-                Reset data
+                Reset
               </Button>
             )}
-          </Box>
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 550 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Product</StyledTableCell>
-                  <StyledTableCell align="right">Quantity</StyledTableCell>
-                  <StyledTableCell align="right">Buyer</StyledTableCell>
-                  <StyledTableCell align="right">Sale Date</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPage > 0
-                  ? rows.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : rows
-                ).map((row, idx) => (
-                  <StyledTableRow key={idx}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.product}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.quantity}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.buyer}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.saleDate}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-                {emptyRows > 0 && (
-                  <StyledTableRow style={{ height: 53 * emptyRows }}>
-                    <StyledTableCell colSpan={6} />
-                  </StyledTableRow>
-                )}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 40, 50]}
-                    colSpan={4}
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    ActionsComponent={TablePaginationActions}
-                    sx={{
-                      ".MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel":
-                        {
-                          transition: "color 0.3s ease-in-out",
-                        },
-                    }}
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer>
-        </Paper>
-      )}
-    </Box>
+          </Stack>
+        </Box>
+        
+        <TableContainer>
+          <Table size="small" aria-label="sales data table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Product</StyledTableCell>
+                <StyledTableCell align="right">Quantity</StyledTableCell>
+                <StyledTableCell align="right">Buyer</StyledTableCell>
+                <StyledTableCell align="right">Sale Date</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? rows.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : rows
+              ).map((row, idx) => (
+                <StyledTableRow key={idx}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.product}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.quantity}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.buyer}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.saleDate}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+              {emptyRows > 0 && (
+                <StyledTableRow style={{ height: 53 * emptyRows }}>
+                  <StyledTableCell colSpan={4} />
+                </StyledTableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10, 20, 30, 50]}
+                  colSpan={4}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                  sx={{
+                    ".MuiTablePagination-select, .MuiTablePagination-selectIcon, .MuiTablePagination-selectLabel":
+                      {
+                        transition: "color 0.3s ease-in-out",
+                      },
+                  }}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
   );
 }
