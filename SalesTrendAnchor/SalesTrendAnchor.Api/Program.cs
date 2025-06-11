@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:3000",
-            "https://your-app-name.netlify.app"  // Replace with your actual Netlify domain
+            "https://stademo.netlify.app" 
         )
         .AllowAnyHeader()
         .AllowAnyMethod();
