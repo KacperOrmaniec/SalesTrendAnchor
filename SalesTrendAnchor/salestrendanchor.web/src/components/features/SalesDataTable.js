@@ -250,6 +250,7 @@ export default function SalesDataTable({
               color="success"
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
+              sx={{ color: "#fff" }}
             >
               Upload CSV
               <VisuallyHiddenInput
@@ -265,6 +266,7 @@ export default function SalesDataTable({
               color="success"
               tabIndex={-1}
               startIcon={<CloudUploadIcon />}
+              sx={{ color: "#fff" }}
             >
               Upload Excel
               <VisuallyHiddenInput
