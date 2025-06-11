@@ -66,7 +66,7 @@ function TrendCard({ trend }) {
       >
         {statusTitle}
       </Typography>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+      <Box>
         <Box>
           <Typography
             component="span"

@@ -7,4 +7,6 @@ public class SaleTrendDto
     public string Buyer { get; set; }
     public DateTime LastSaleDate { get; set; }
     public DateTime NextBuyDate { get; set; }
+    public double PredictedQuantity { get; set; }
+    public double ConfidenceScore { get; set; }
 }

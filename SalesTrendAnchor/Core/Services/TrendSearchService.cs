@@ -29,7 +29,8 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
         var avg = intervals.Average(t => t.TotalDays);
         var stdDev = Math.Sqrt(intervals.Average(t => Math.Pow(t.TotalDays - avg, 2)));
 
-        return intervals.All(t => Math.Abs(t.TotalDays - avg) <= 2 * stdDev);
+        // Zmniejszamy tolerancję do 1.5 odchylenia standardowego dla lepszej dokładności
+        return intervals.All(t => Math.Abs(t.TotalDays - avg) <= 1.5 * stdDev);
     }
 
     private static List<TimeSpan> GetIntervals(List<Sale> orderedSales)
@@ -97,13 +98,13 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
         var intervals = GetIntervals(lastFiveSales);
         var stdDev = Math.Sqrt(intervals.Average(t => Math.Pow(t.TotalDays - averageIntervalDays, 2)));
         
-        // Im mniejsze odchylenie standardowe, tym wyższy score
+        // Im mniejsze odchylenie standardowe, tym wyższy score (50% wagi)
         var regularityScore = Math.Max(0, 1 - (stdDev / averageIntervalDays));
         
-        // Im więcej zakupów, tym wyższy score
+        // Im więcej zakupów, tym wyższy score (30% wagi)
         var quantityScore = Math.Min(1, lastFiveSales.Count / 5.0);
         
-        // Im częstsze zakupy, tym wyższy score (do pewnego limitu)
+        // Im częstsze zakupy, tym wyższy score (20% wagi)
         var frequencyScore = Math.Min(1, 30 / averageIntervalDays);
         
         // Średnia ważona wszystkich składowych
