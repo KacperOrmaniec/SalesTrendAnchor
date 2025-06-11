@@ -12,9 +12,12 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000") 
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(
+            "http://localhost:3000",
+            "https://your-app-name.netlify.app"  // Replace with your actual Netlify domain
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 

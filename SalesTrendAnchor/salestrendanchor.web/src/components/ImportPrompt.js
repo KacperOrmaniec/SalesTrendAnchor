@@ -13,7 +13,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { useNotification } from "../common/NotificationManager";
+import { useNotification } from "./NotificationManager";
 
 const REQUIRED_COLUMNS = ["product", "quantity", "buyer", "saleDate"];
 
@@ -21,6 +21,12 @@ function getColumns(data) {
   if (!Array.isArray(data) || data.length === 0) return [];
   return Object.keys(data[0]);
 }
+
+//function validateColumns(data) {
+//  if (!Array.isArray(data) || data.length === 0) return REQUIRED_COLUMNS;
+//  const columns = Object.keys(data[0]).map((col) => col.trim().toLowerCase());
+//  return REQUIRED_COLUMNS.filter((col) => !columns.includes(col));
+//}
 
 function ImportPrompt({ onFileImported, onReset }) {
   const [error, setError] = useState(null);

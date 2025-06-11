@@ -1,8 +1,7 @@
 import Paper from "@mui/material/Paper";
 import TrendCard from "./TrendCard";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useState } from "react";
-import { CircularProgress, Alert } from "@mui/material";
+import { Alert } from "@mui/material";
 
 function getTrendStatus(trend) {
   const today = new Date();
