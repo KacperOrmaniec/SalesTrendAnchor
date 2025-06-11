@@ -126,6 +126,12 @@ function TrendCard({ trend }) {
           <Typography variant="body2" color="text.secondary">
             Last sale: {new Date(trend.lastSaleDate).toLocaleDateString()}
           </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Predicted quantity: {trend.predictedQuantity.toFixed(1)}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Confidence score: {trend.confidenceScore.toFixed(1)}%
+          </Typography>
         </Box>
       </Collapse>
       <IconButton
