@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { useNotification } from "../common/NotificationManager";
+import { API_BASE_URL } from "../../config";
 
 const REQUIRED_COLUMNS = ["product", "quantity", "buyer", "saleDate"];
 
@@ -62,7 +63,6 @@ function ImportPrompt({ onFileImported, onReset }) {
       showNotification(`Error analyzing trends: ${apiError.message}`, "error");
     }
   };
-  const API_BASE_URL = "http://stademo.runasp.net";
 
   const handleFileChange = (e) => {
     setError(null);

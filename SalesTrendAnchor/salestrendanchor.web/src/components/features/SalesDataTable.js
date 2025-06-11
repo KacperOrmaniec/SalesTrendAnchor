@@ -24,6 +24,7 @@ import ImportPrompt from "./ImportPrompt";
 import { useNotification } from "../common/NotificationManager";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
+import { API_BASE_URL } from "../../config";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -116,7 +117,7 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-const API_BASE_URL = "http://stademo.runasp.net";
+
 export default function SalesDataTable({
   rows,
   onReset,
