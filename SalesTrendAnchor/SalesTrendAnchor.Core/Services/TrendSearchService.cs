@@ -23,7 +23,8 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
 
     private static bool HasConsistentIntervals(IGrouping<object, Sale> group)
     {
-        var intervals = GetIntervals(group.OrderByDescending(s => s.SaleDate).Take(5));
+        var orderedSales = group.OrderByDescending(s => s.SaleDate).Take(5).ToList();
+        var intervals = GetIntervals(orderedSales);
         if (intervals.Count < 2) return false;
 
         var avg = intervals.Average(t => t.TotalDays);
