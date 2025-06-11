@@ -1,5 +1,5 @@
 [build]
-  base = "salestrendanchor.web"
+  base = "SalesTrendAnchor/salestrendanchor.web"
   command = "npm run build"
   publish = "build"
 
