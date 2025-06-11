@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:3000",
-            "https://stademo.netlify.app" 
+            "https://stademo.netlify.app/"
         )
         .AllowAnyHeader()
         .AllowAnyMethod();
