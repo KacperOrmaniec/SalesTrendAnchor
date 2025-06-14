@@ -1,8 +1,7 @@
-import React from "react";
-import { Card, CardContent, Typography, Box, Alert, Stack } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 import TrendCard from "./TrendCard";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { useTheme } from "@mui/material/styles";
+import { Alert } from "@mui/material";
 
 function getTrendStatus(trend) {
   const today = new Date();
@@ -30,66 +29,59 @@ function TrendList({ trendCards }) {
 
   if (!trendCards || trendCards.length === 0) {
     return (
-      <Card>
-        <CardContent sx={{ p: 4, textAlign: "center" }}>
-          <TrendingUpIcon 
-            sx={{ 
-              fontSize: 64, 
-              color: "text.secondary", 
-              mb: 2,
-              opacity: 0.5,
-            }} 
-          />
-          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-            No Trends Available
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Upload sales data to discover purchasing patterns and trends
-          </Typography>
-        </CardContent>
-      </Card>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: 200,
+        }}
+      >
+        <Alert severity="info" sx={{ width: "100%" }}>
+          There are no sales trends to display right now.
+          <br />
+          Upload sales data to see trends!
+        </Alert>
+      </Paper>
     );
   }
 
   return (
-    <Card>
-      <CardContent sx={{ p: 3 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            Sales Trends
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {sortedTrends.length} trend{sortedTrends.length !== 1 ? 's' : ''} found
-          </Typography>
-        </Box>
-        
-        <Stack 
-          spacing={2}
-          sx={{
-            maxHeight: 600,
-            overflowY: "auto",
-            pr: 1,
-            "&::-webkit-scrollbar": {
-              width: "6px",
-            },
-            "&::-webkit-scrollbar-track": {
-              backgroundColor: "transparent",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: theme.palette.divider,
-              borderRadius: "3px",
-              "&:hover": {
-                backgroundColor: theme.palette.action.hover,
-              },
-            },
-          }}
-        >
-          {sortedTrends.map((trend) => (
-            <TrendCard key={trend.id} trend={trend} />
-          ))}
-        </Stack>
-      </CardContent>
-    </Card>
+    <Paper
+      elevation={3}
+      sx={{
+        padding: 3,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        maxHeight: 820,
+        overflowY: "auto",
+        minWidth: 320,
+        transition:
+          "background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        "&::-webkit-scrollbar": {
+          width: "8px",
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: theme.palette.background.paper,
+          transition: "background-color 0.3s ease-in-out",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: theme.palette.divider,
+          borderRadius: "4px",
+          transition: "background-color 0.3s ease-in-out",
+          "&:hover": {
+            backgroundColor: theme.palette.action.hover,
+          },
+        },
+      }}
+    >
+      {sortedTrends.map((trend) => (
+        <TrendCard key={trend.id} trend={trend} />
+      ))}
+    </Paper>
   );
 }
 

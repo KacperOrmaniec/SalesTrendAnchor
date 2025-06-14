@@ -3,7 +3,7 @@ import SalesDataTable from "./components/features/SalesDataTable";
 import Sidebar from "./components/layout/Sidebar";
 import TopBar from "./components/layout/TopBar";
 import TrendList from "./components/features/TrendList";
-import { ThemeProvider, CssBaseline, Box, Container, Fade } from "@mui/material";
+import { ThemeProvider, CssBaseline, Box, Container } from "@mui/material";
 import { useState } from "react";
 import { lightTheme, darkTheme } from "./theme";
 import { NotificationProvider } from "./components/common/NotificationManager";
@@ -23,7 +23,7 @@ function App() {
     setTrendCards(trendData);
   };
 
-  const sidebarWidth = sidebarCollapsed ? 64 : 240;
+  const sidebarWidth = sidebarCollapsed ? 64 : 224;
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
@@ -38,48 +38,51 @@ function App() {
             display: "flex",
             minHeight: "100vh",
             ml: `${sidebarWidth}px`,
-            transition: "margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: "margin-left 0.3s ease-in-out",
             flexDirection: "column",
-            bgcolor: "background.default",
           }}
         >
-          <TopBar
-            isDarkMode={isDarkMode}
-            onThemeToggle={toggleTheme}
-          />
-          
-          <Container
-            maxWidth="xl"
-            sx={{
-              flex: 1,
-              py: { xs: 2, md: 4 },
-              px: { xs: 2, md: 3 },
-              display: "flex",
-              flexDirection: { xs: "column", lg: "row" },
-              gap: { xs: 2, md: 3 },
-              alignItems: "flex-start",
-            }}
-          >
-            <Fade in timeout={600}>
-              <Box sx={{ flex: { lg: "1 1 55%" }, width: "100%" }}>
-                <SalesDataTable
-                  rows={rows}
-                  onReset={() => {
-                    setRows([]);
-                    setTrendCards([]);
-                  }}
-                  onFileImported={handleFileImported}
-                  onTrendsAnalyzed={setTrendCards}
-                />
-              </Box>
-            </Fade>
-            
-            <Fade in timeout={800}>
-              <Box sx={{ flex: { lg: "1 1 45%" }, width: "100%" }}>
+          <Box sx={{ flexGrow: 0 }}>
+            <TopBar
+              isDarkMode={isDarkMode}
+              onThemeToggle={toggleTheme}
+              sx={{ ml: 0 }}
+            />
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+            <Container
+              maxWidth="xl"
+              sx={{
+                p: 3,
+                display: "flex",
+                flexDirection: { xs: "column", lg: "row" },
+                gap: 3,
+                justifyContent: "center",
+                alignItems: { xs: "stretch", lg: "flex-start" },
+                transition: "padding 0.3s ease-in-out",
+              }}
+            >
+              <SalesDataTable
+                rows={rows}
+                onReset={() => {
+                  setRows([]);
+                  setTrendCards([]);
+                }}
+                onFileImported={handleFileImported}
+                onTrendsAnalyzed={setTrendCards}
+              />
+              <Box
+                sx={{
+                  flex: { lg: "1 1 40%" },
+                  display: "flex",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease-in-out",
+                }}
+              >
                 <TrendList trendCards={trendCards} />
               </Box>
-            </Fade>
-          </Container>
+            </Container>
+          </Box>
         </Box>
       </NotificationProvider>
     </ThemeProvider>

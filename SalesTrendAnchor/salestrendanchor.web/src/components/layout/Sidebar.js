@@ -10,7 +10,6 @@ import {
   ListItem,
   ListItemIcon,
   Divider,
-  Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -20,8 +19,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-const EXPANDED_WIDTH = 240;
+const EXPANDED_WIDTH = 224;
 const COLLAPSED_WIDTH = 64;
+const TEXT_CONTAINER_WIDTH = 120; // px
 
 function Sidebar({ collapsed, onCollapseChange }) {
   const theme = useTheme();
@@ -71,8 +71,8 @@ function Sidebar({ collapsed, onCollapseChange }) {
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: 1.5,
-          p: 2.5,
+          gap: 1,
+          p: 2,
           borderBottom: `1px solid ${theme.palette.divider}`,
         }}
       >
@@ -81,40 +81,28 @@ function Sidebar({ collapsed, onCollapseChange }) {
             transition: "all 0.3s ease-in-out",
             width: collapsed ? 32 : 40,
             height: collapsed ? 32 : 40,
-            bgcolor: "primary.main",
-            fontSize: collapsed ? "0.875rem" : "1rem",
-            fontWeight: 600,
           }}
         >
-          SA
+          KO
         </Avatar>
-        {!collapsed && (
-          <Box>
-            <Typography
-              variant="body2"
-              sx={{
-                color: "text.primary",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                lineHeight: 1.2,
-              }}
-            >
-              Sales Anchor
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                color: "text.secondary",
-                fontSize: "0.75rem",
-              }}
-            >
-              Trend Analysis
-            </Typography>
-          </Box>
-        )}
+        <Box
+          sx={{
+            color: "text.primary",
+            transition: "opacity 0.3s ease-in-out",
+            opacity: collapsed ? 0 : 1,
+            width: `${TEXT_CONTAINER_WIDTH}px`,
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            ml: 1,
+            display: "inline-block",
+          }}
+          aria-hidden={collapsed}
+        >
+          logo
+        </Box>
       </Box>
 
-      <List sx={{ flexGrow: 1, pt: 2, px: 1 }}>
+      <List sx={{ flexGrow: 1, pt: 2 }}>
         {menuItems.map((item) => (
           <Tooltip
             key={item.id}
@@ -125,54 +113,49 @@ function Sidebar({ collapsed, onCollapseChange }) {
               button
               onClick={() => handleItemClick(item.id)}
               sx={{
-                minHeight: 44,
+                minHeight: 48,
                 justifyContent: collapsed ? "center" : "initial",
-                px: 2,
-                mx: 0.5,
-                mb: 0.5,
-                borderRadius: 2,
+                px: 2.5,
                 backgroundColor:
                   activeItem === item.id
-                    ? theme.palette.primary.main
+                    ? theme.palette.action.selected
                     : "transparent",
-                color: activeItem === item.id ? "#fff" : "text.primary",
                 "&:hover": {
-                  backgroundColor:
-                    activeItem === item.id
-                      ? theme.palette.primary.dark
-                      : theme.palette.action.hover,
+                  backgroundColor: theme.palette.action.hover,
                 },
-                transition: "all 0.2s ease-in-out",
+                transition: "all 0.3s ease-in-out",
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
-                  mr: collapsed ? "auto" : 2,
+                  mr: collapsed ? "auto" : 3,
                   justifyContent: "center",
-                  color: "inherit",
-                  transition: "all 0.2s ease-in-out",
+                  color: activeItem === item.id ? "primary.main" : "inherit",
+                  transition: "all 0.3s ease-in-out",
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              {!collapsed && (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: 500,
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  {item.label}
-                </Typography>
-              )}
+              <Box
+                sx={{
+                  opacity: collapsed ? 0 : 1,
+                  width: `${TEXT_CONTAINER_WIDTH}px`,
+                  transition: "opacity 0.3s ease-in-out",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  display: "inline-block",
+                }}
+                aria-hidden={collapsed}
+              >
+                {item.label}
+              </Box>
             </ListItem>
           </Tooltip>
         ))}
       </List>
 
-      <Divider sx={{ mx: 1 }} />
+      <Divider />
 
       <Box sx={{ p: 2 }}>
         <Tooltip title={collapsed ? "Logout" : ""} placement="right">
@@ -180,18 +163,28 @@ function Sidebar({ collapsed, onCollapseChange }) {
             variant="outlined"
             color="error"
             fullWidth
-            startIcon={!collapsed ? <LogoutIcon /> : null}
+            startIcon={!collapsed && <LogoutIcon />}
             sx={{
               justifyContent: collapsed ? "center" : "flex-start",
-              minWidth: collapsed ? 40 : "100%",
-              height: 40,
-              borderRadius: 2,
-              transition: "all 0.2s ease-in-out",
-              fontSize: "0.875rem",
-              fontWeight: 500,
+              minWidth: collapsed ? "auto" : "100%",
+              px: collapsed ? 1 : 2,
+              transition: "all 0.3s ease-in-out",
             }}
           >
-            {collapsed ? <LogoutIcon /> : "Logout"}
+            <span
+              style={{
+                opacity: collapsed ? 0 : 1,
+                width: `${TEXT_CONTAINER_WIDTH}px`,
+                transition: "opacity 0.3s ease-in-out",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                display: "inline-block",
+                marginLeft: 8,
+              }}
+              aria-hidden={collapsed}
+            >
+              Logout
+            </span>
           </Button>
         </Tooltip>
       </Box>
@@ -200,18 +193,14 @@ function Sidebar({ collapsed, onCollapseChange }) {
         onClick={() => onCollapseChange && onCollapseChange(!collapsed)}
         sx={{
           position: "absolute",
-          right: -16,
+          right: -12,
           top: "50%",
-          transform: "translateY(-50%)",
           backgroundColor: theme.palette.background.paper,
           border: `1px solid ${theme.palette.divider}`,
-          width: 32,
-          height: 32,
           "&:hover": {
             backgroundColor: theme.palette.action.hover,
           },
           transition: "all 0.3s ease-in-out",
-          boxShadow: theme.shadows[2],
         }}
       >
         {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
