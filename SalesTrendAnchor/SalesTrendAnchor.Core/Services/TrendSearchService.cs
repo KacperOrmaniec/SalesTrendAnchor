@@ -23,8 +23,7 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
 
     private static bool HasConsistentIntervals(IGrouping<object, Sale> group)
     {
-        var orderedSales = group.OrderByDescending(s => s.SaleDate).Take(5).ToList();
-        var intervals = GetIntervals(orderedSales);
+        var intervals = GetIntervals(group.OrderByDescending(s => s.SaleDate).Take(5).ToList());
         if (intervals.Count < 2) return false;
 
         var avg = intervals.Average(t => t.TotalDays);
@@ -111,4 +110,4 @@ public class TrendSearchService(IEnumerable<Sale> sales) : ITrendSearchService
         // Średnia ważona wszystkich składowych
         return Math.Round((regularityScore * 0.5 + quantityScore * 0.3 + frequencyScore * 0.2) * 100, 2);
     }
-}
+} 

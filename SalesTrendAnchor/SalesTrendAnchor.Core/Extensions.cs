@@ -11,6 +11,7 @@ public static class Extensions
     {
         services.AddScoped<GetSaleTrendsHandler>();
         services.AddScoped<GetSaleTrendsJsonHandler>();
+        services.AddScoped<ISalesAnalysisService, SalesAnalysisService>();
         services.AddSingleton<ITrendSearchService, TrendSearchService>(sp =>
         {
             var sales = new List<Sale>
