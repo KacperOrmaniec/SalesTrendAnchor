@@ -18,6 +18,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const EXPANDED_WIDTH = 224;
 const COLLAPSED_WIDTH = 64;
@@ -25,7 +26,8 @@ const TEXT_CONTAINER_WIDTH = 120; // px
 
 function Sidebar({ collapsed, onCollapseChange }) {
   const theme = useTheme();
-  const [activeItem, setActiveItem] = useState("dashboard");
+  const navigate = useNavigate();
+  const location = useLocation();
   const [sidebarWidth, setSidebarWidth] = useState(
     collapsed ? COLLAPSED_WIDTH : EXPANDED_WIDTH
   );
@@ -35,13 +37,28 @@ function Sidebar({ collapsed, onCollapseChange }) {
   }, [collapsed]);
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: <DashboardIcon /> },
-    { id: "analytics", label: "Analytics", icon: <AnalyticsIcon /> },
-    { id: "settings", label: "Settings", icon: <SettingsIcon /> },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <DashboardIcon />,
+      path: "/dashboard",
+    },
+    {
+      id: "analytics",
+      label: "Analytics",
+      icon: <AnalyticsIcon />,
+      path: "/analytics",
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <SettingsIcon />,
+      path: "/settings",
+    },
   ];
 
-  const handleItemClick = (itemId) => {
-    setActiveItem(itemId);
+  const handleItemClick = (itemId, path) => {
+    navigate(path);
   };
 
   useEffect(() => {
@@ -111,13 +128,13 @@ function Sidebar({ collapsed, onCollapseChange }) {
           >
             <ListItem
               button
-              onClick={() => handleItemClick(item.id)}
+              onClick={() => handleItemClick(item.id, item.path)}
               sx={{
                 minHeight: 48,
                 justifyContent: collapsed ? "center" : "initial",
                 px: 2.5,
                 backgroundColor:
-                  activeItem === item.id
+                  location.pathname === item.path
                     ? theme.palette.action.selected
                     : "transparent",
                 "&:hover": {
@@ -131,7 +148,10 @@ function Sidebar({ collapsed, onCollapseChange }) {
                   minWidth: 0,
                   mr: collapsed ? "auto" : 3,
                   justifyContent: "center",
-                  color: activeItem === item.id ? "primary.main" : "inherit",
+                  color:
+                    location.pathname === item.path
+                      ? "primary.main"
+                      : "inherit",
                   transition: "all 0.3s ease-in-out",
                 }}
               >
@@ -200,7 +220,6 @@ function Sidebar({ collapsed, onCollapseChange }) {
           "&:hover": {
             backgroundColor: theme.palette.action.hover,
           },
-          transition: "all 0.3s ease-in-out",
         }}
       >
         {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}

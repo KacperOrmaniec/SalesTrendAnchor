@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
-function TopBar({ isDarkMode, onThemeToggle }) {
+function TopBar({ isDarkMode, onThemeToggle, title = "Dashboard" }) {
   const theme = useTheme();
 
   return (
@@ -19,7 +19,7 @@ function TopBar({ isDarkMode, onThemeToggle }) {
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography variant="h6" color="text.primary">
-          Dashboard
+          {title}
         </Typography>
         <IconButton
           onClick={onThemeToggle}
