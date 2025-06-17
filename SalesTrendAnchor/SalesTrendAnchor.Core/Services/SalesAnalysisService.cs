@@ -25,35 +25,31 @@ namespace SalesTrendAnchor.Core.Services
                 double churnRiskScore = 0;
                 string trendDescription = "Stable";
 
-                // Check for declining turnover (last 3 months)
                 if (sortedMonthlyData.Count >= 3)
                 {
                     if (sortedMonthlyData[0] < sortedMonthlyData[1] && sortedMonthlyData[1] < sortedMonthlyData[2])
                     {
                         isLosingBuyer = true;
                         trendDescription = "Declining";
-                        churnRiskScore += 40; // High risk for consistent decline
+                        churnRiskScore += 40;
                     }
                     else if (sortedMonthlyData[0] < sortedMonthlyData[1])
                     {
-                        // At least a recent drop
                         isLosingBuyer = true;
                         trendDescription = "Recent Drop";
-                        churnRiskScore += 20; // Moderate risk for recent drop
+                        churnRiskScore += 20;
                     }
                 }
 
-                // Flag for zero turnover for consecutive recent months (last 2 months)
                 if (sortedMonthlyData.Count >= 2 && sortedMonthlyData[0] == 0 && sortedMonthlyData[1] == 0)
                 {
                     hasZeroTurnoverForConsecutiveMonths = true;
-                    churnRiskScore += 50; // Very high risk for consecutive zero turnover
+                    churnRiskScore += 50;
                     trendDescription = "Inactive (Consecutive Zero Turnover)";
                 }
                 else if (sortedMonthlyData.Count >= 1 && sortedMonthlyData[0] == 0)
                 {
-                    // Zero in the most recent month
-                    churnRiskScore += 30; // High risk for recent inactivity
+                    churnRiskScore += 30; 
                     trendDescription = "Inactive (Most Recent Month Zero Turnover)";
                 }
 
@@ -77,7 +73,6 @@ namespace SalesTrendAnchor.Core.Services
 
             foreach (var clientData in salesData)
             {
-                // Get turnover data sorted by month
                 var turnoverData = clientData.Months
                     .OrderBy(m => monthOrder.GetValueOrDefault(m.Key.ToUpper(), 0))
                     .Select(m => (double)m.Value.Turnover)
@@ -88,14 +83,11 @@ namespace SalesTrendAnchor.Core.Services
                     predictionResults.Add(new TurnoverPredictionResult
                     {
                         Client = clientData.Client,
-                        PredictedNextMonthTurnover = 0 // Not enough data to predict
+                        PredictedNextMonthTurnover = 0 
                     });
                     continue;
                 }
 
-                // Simple Linear Regression for prediction
-                // y = mx + b
-                // x = month index, y = turnover
                 var xValues = Enumerable.Range(1, turnoverData.Count).Select(i => (double)i).ToArray();
                 var yValues = turnoverData.ToArray();
 
@@ -112,16 +104,15 @@ namespace SalesTrendAnchor.Core.Services
                     predictionResults.Add(new TurnoverPredictionResult
                     {
                         Client = clientData.Client,
-                        PredictedNextMonthTurnover = (decimal)yValues.Average() // If all x are same, average y
+                        PredictedNextMonthTurnover = (decimal)yValues.Average() 
                     });
                     continue;
                 }
 
-                double m = (n * sumXY - sumX * sumY) / denominator; // Slope
-                double b = (sumY - m * sumX) / n; // Y-intercept
+                double m = (n * sumXY - sumX * sumY) / denominator; 
+                double b = (sumY - m * sumX) / n; 
 
-                // Predict for the next month (index n + 1)
-                decimal predictedTurnover = (decimal)Math.Max(0, m * (n + 1) + b); // Ensure prediction is not negative
+                decimal predictedTurnover = (decimal)Math.Max(0, m * (n + 1) + b); 
 
                 predictionResults.Add(new TurnoverPredictionResult
                 {
@@ -138,7 +129,6 @@ namespace SalesTrendAnchor.Core.Services
             var overallPredictedTurnover = 0M;
             var monthOrder = GetMonthOrder();
 
-            // Aggregate all monthly turnover data across all clients
             var allMonthlyTurnoverData = new Dictionary<string, decimal>();
 
             foreach (var clientData in salesData)
@@ -167,7 +157,6 @@ namespace SalesTrendAnchor.Core.Services
                 return new OverallTurnoverPredictionResult { PredictedOverallNextMonthTurnover = 0 };
             }
 
-            // Simple Linear Regression for overall prediction
             var xValues = Enumerable.Range(1, sortedOverallTurnoverData.Count).Select(i => (double)i).ToArray();
             var yValues = sortedOverallTurnoverData.ToArray();
 

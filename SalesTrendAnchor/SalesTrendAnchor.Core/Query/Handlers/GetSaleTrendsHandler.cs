@@ -4,17 +4,11 @@ using SalesTrendAnchor.Core.Services.Abstractions;
 
 namespace SalesTrendAnchor.Core.Query.Handlers;
 
-public class GetSaleTrendsHandler : IQueryHandler<GetSaleTrendsQuery, IEnumerable<SaleTrend>>
+public class GetSaleTrendsHandler(ITrendSearchService trendSearchService) : IQueryHandler<GetSaleTrendsQuery, IEnumerable<SaleTrend>>
 {
-    private readonly ITrendSearchService _trendSearchService;
-
-    public GetSaleTrendsHandler(ITrendSearchService trendSearchService)
-    {
-        _trendSearchService = trendSearchService;
-    }
+    private readonly ITrendSearchService _trendSearchService = trendSearchService;
 
     public async Task<IEnumerable<SaleTrend>> Handle(GetSaleTrendsQuery query)
-    {
-        return await _trendSearchService.FilterSaleTrends();
-    }
+        => await _trendSearchService.FilterSaleTrends();
+    
 }
