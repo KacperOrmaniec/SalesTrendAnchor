@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SalesTrendAnchor.Core.Entities;
+using SalesTrendAnchor.Core.Query;
 using SalesTrendAnchor.Core.Query.Handlers;
 using SalesTrendAnchor.Core.Services;
 using SalesTrendAnchor.Core.Services.Abstractions;
@@ -10,8 +11,7 @@ public static class Extensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        services.AddScoped<GetSaleTrendsHandler>();
-        services.AddScoped<GetSaleTrendsJsonHandler>();
+        services.AddQueries();
         services.AddScoped<ISalesAnalysisService, SalesAnalysisService>();
         services.AddSingleton<ITrendSearchService, TrendSearchService>(sp =>
         {

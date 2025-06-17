@@ -10,5 +10,14 @@ public class SaleProfile : Profile
     {
         CreateMap<Sale, SaleDto>().ReverseMap();
         CreateMap<SaleTrend, SaleTrendDto>().ReverseMap();
+
+        CreateMap<ClientSalesData, ClientSalesDataDto>().ReverseMap();
+        CreateMap<ChurnPredictionResult, ChurnPredictionResultDto>().ReverseMap();
+        CreateMap<MonthlyTrend, MonthlyTrendDto>().ReverseMap();
+        CreateMap<ClientTrendAnalysis, ClientTrendAnalysisDto>().ReverseMap();
+        CreateMap<InactiveBuyerResult, InactiveBuyerResultDto>().ReverseMap();
+        CreateMap<MonthlyData, MonthlyDataDto>().ReverseMap();
+        CreateMap<OverallTurnoverPredictionResult, OverallTurnoverPredictionResultDto>().ReverseMap();
+        CreateMap<TurnoverPredictionResult, TurnoverPredictionResultDto>().ReverseMap();
     }
 }

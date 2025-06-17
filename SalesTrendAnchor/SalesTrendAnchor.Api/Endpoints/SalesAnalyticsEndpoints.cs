@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SalesTrendAnchor.Api.DTO;
+using SalesTrendAnchor.Core.Entities;
 using SalesTrendAnchor.Core.Query;
 using SalesTrendAnchor.Core.Query.Handlers;
 
