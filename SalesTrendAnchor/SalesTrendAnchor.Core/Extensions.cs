@@ -2,6 +2,7 @@
 using SalesTrendAnchor.Core.Entities;
 using SalesTrendAnchor.Core.Query.Handlers;
 using SalesTrendAnchor.Core.Services;
+using SalesTrendAnchor.Core.Services.Abstractions;
 
 namespace SalesTrendAnchor.Core;
 

@@ -1,7 +1,7 @@
-using SalesTrendAnchor.Core.Models;
+using SalesTrendAnchor.Core.Entities;
 using System.Collections.Generic;
 
-namespace SalesTrendAnchor.Core.Services
+namespace SalesTrendAnchor.Core.Services.Abstractions
 {
     public interface ISalesAnalysisService
     {

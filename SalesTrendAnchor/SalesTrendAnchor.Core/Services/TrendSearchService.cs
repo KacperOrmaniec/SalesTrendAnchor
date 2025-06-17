@@ -1,4 +1,5 @@
 ﻿using SalesTrendAnchor.Core.Entities;
+using SalesTrendAnchor.Core.Services.Abstractions;
 
 namespace SalesTrendAnchor.Core.Services;
 

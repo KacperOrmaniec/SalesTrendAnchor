@@ -3,8 +3,7 @@ using SalesTrendAnchor.Api.DTO;
 using SalesTrendAnchor.Core.Entities;
 using SalesTrendAnchor.Core.Query;
 using SalesTrendAnchor.Core.Query.Handlers;
-using SalesTrendAnchor.Core.Services;
-using SalesTrendAnchor.Core.Models;
+using SalesTrendAnchor.Core.Services.Abstractions;
 
 namespace SalesTrendAnchor.Api.Endpoints;
 
@@ -30,7 +29,6 @@ public static class SalesTrendEndpoints
             return Results.Ok(resultDto);
         });
 
-        // New Minimal API Endpoints for Sales Analysis
         app.MapPost("/salesanalysis/churn-prediction", (List<ClientSalesData> salesData, ISalesAnalysisService salesAnalysisService) =>
         {
             var results = salesAnalysisService.PredictChurn(salesData);

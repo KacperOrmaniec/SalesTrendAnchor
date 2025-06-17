@@ -1,4 +1,5 @@
-using SalesTrendAnchor.Core.Models;
+using SalesTrendAnchor.Core.Entities;
+using SalesTrendAnchor.Core.Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
