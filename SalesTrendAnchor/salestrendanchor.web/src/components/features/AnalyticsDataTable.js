@@ -24,9 +24,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     fontWeight: "bold",
+    position: "sticky",
+    top: 0,
+    zIndex: 2,
   },
   "&.MuiTableCell-body": {
-    fontSize: 14,
+    fontSize: 15,
+    padding: "12px 16px",
   },
 }));
 
@@ -34,6 +38,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   transition: "background-color 0.3s ease-in-out",
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
+  },
+  "&:hover": {
+    backgroundColor: theme.palette.action.selected,
   },
   "&:last-child td, &:last-child th": {
     border: 0,
