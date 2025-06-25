@@ -67,7 +67,7 @@ function Analytics({ isDarkMode, onThemeToggle }) {
   const handleAddClient = () => {
     const months = {};
     monthsList.forEach((m) => {
-      months[m] = { turnover: "", margin: "" };
+      months[m] = { turnover: 0, margin: 0 };
     });
     setManualClients([...manualClients, { client: "", months }]);
   };
