@@ -309,7 +309,48 @@ function Analytics({ isDarkMode, onThemeToggle }) {
                   Churn Prediction Results
                 </Typography>
                 <Paper sx={{ p: 2 }}>
-                  <pre>{JSON.stringify(churnPredictionResults, null, 2)}</pre>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead>
+                      <tr>
+                        <th style={{ textAlign: "left", padding: 8 }}>
+                          Client
+                        </th>
+                        <th style={{ textAlign: "left", padding: 8 }}>
+                          Is Losing Buyer
+                        </th>
+                        <th style={{ textAlign: "left", padding: 8 }}>
+                          Zero Turnover (Consecutive)
+                        </th>
+                        <th style={{ textAlign: "left", padding: 8 }}>
+                          Churn Risk Score
+                        </th>
+                        <th style={{ textAlign: "left", padding: 8 }}>
+                          Trend Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {churnPredictionResults.map((result, idx) => (
+                        <tr key={idx}>
+                          <td style={{ padding: 8 }}>{result.Client}</td>
+                          <td style={{ padding: 8 }}>
+                            {result.IsLosingBuyer ? "Yes" : "No"}
+                          </td>
+                          <td style={{ padding: 8 }}>
+                            {result.HasZeroTurnoverForConsecutiveMonths
+                              ? "Yes"
+                              : "No"}
+                          </td>
+                          <td style={{ padding: 8 }}>
+                            {result.ChurnRiskScore}
+                          </td>
+                          <td style={{ padding: 8 }}>
+                            {result.TrendDescription}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </Paper>
               </Box>
             )}

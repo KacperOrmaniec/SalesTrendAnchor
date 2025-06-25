@@ -1,13 +1,7 @@
 import { API_BASE_URL } from "../config";
 
 export const getChurnPrediction = async (salesData) => {
-  const formattedData = salesData.map((item) => ({
-    ClientName: item.Klient,
-    Turnover: parseFloat(item.Obrót),
-    Margin: parseFloat(item.Marża),
-    Date: item.Data, // Assuming Date is in a format compatible with backend (e.g., YYYY-MM-DD)
-  }));
-
+  // salesData is already in the correct DTO format: [{ Client, Months }]
   try {
     const response = await fetch(
       `${API_BASE_URL}/salesanalysis/churn-prediction`,
@@ -16,7 +10,7 @@ export const getChurnPrediction = async (salesData) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formattedData),
+        body: JSON.stringify(salesData),
       }
     );
 
