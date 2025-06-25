@@ -123,6 +123,37 @@ function AnalyticsDataTable({ data }) {
     setPage(0);
   };
 
+  // Helper to render months as a nested table
+  const renderMonths = (monthsObj) => {
+    if (!monthsObj || typeof monthsObj !== "object") return null;
+    return (
+      <table style={{ borderCollapse: "collapse", width: "100%" }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: "left", padding: 2, fontWeight: "bold" }}>
+              Month
+            </th>
+            <th style={{ textAlign: "left", padding: 2, fontWeight: "bold" }}>
+              Turnover
+            </th>
+            <th style={{ textAlign: "left", padding: 2, fontWeight: "bold" }}>
+              Margin
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(monthsObj).map(([month, values]) => (
+            <tr key={month}>
+              <td style={{ padding: 2 }}>{month}</td>
+              <td style={{ padding: 2 }}>{values.Turnover}</td>
+              <td style={{ padding: 2 }}>{values.Margin}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="analytics table">
@@ -140,7 +171,11 @@ function AnalyticsDataTable({ data }) {
           ).map((row, index) => (
             <StyledTableRow key={index}>
               {columns.map((column) => (
-                <StyledTableCell key={column}>{row[column]}</StyledTableCell>
+                <StyledTableCell key={column}>
+                  {column === "Months"
+                    ? renderMonths(row[column])
+                    : row[column]}
+                </StyledTableCell>
               ))}
             </StyledTableRow>
           ))}
