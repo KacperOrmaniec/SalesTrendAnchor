@@ -111,7 +111,7 @@ function TablePaginationActions(props) {
 
 function AnalyticsDataTable({ data }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const columns = useMemo(() => {
     if (!data || data.length === 0) return [];
