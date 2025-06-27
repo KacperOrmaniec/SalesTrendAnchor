@@ -16,6 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { getChurnPrediction } from "../../api/analyticsApi";
 import { useNotification } from "../common/NotificationManager";
 import dayjs from "dayjs";
+import ChurnResultList from "../features/ChurnResultList";
 
 function getLast12Months() {
   const months = [];
@@ -321,53 +322,7 @@ function Analytics({ isDarkMode, onThemeToggle }) {
 
             {churnPredictionResults && (
               <Box sx={{ mt: 4, width: "100%" }}>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  Churn Prediction Results
-                </Typography>
-                <Paper sx={{ p: 2 }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                    <thead>
-                      <tr>
-                        <th style={{ textAlign: "left", padding: 8 }}>
-                          Client
-                        </th>
-                        <th style={{ textAlign: "left", padding: 8 }}>
-                          Is Losing Buyer
-                        </th>
-                        <th style={{ textAlign: "left", padding: 8 }}>
-                          Zero Turnover (Consecutive)
-                        </th>
-                        <th style={{ textAlign: "left", padding: 8 }}>
-                          Churn Risk Score
-                        </th>
-                        <th style={{ textAlign: "left", padding: 8 }}>
-                          Trend Description
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {churnPredictionResults.map((result, idx) => (
-                        <tr key={idx}>
-                          <td style={{ padding: 8 }}>{result.Client}</td>
-                          <td style={{ padding: 8 }}>
-                            {result.IsLosingBuyer ? "Yes" : "No"}
-                          </td>
-                          <td style={{ padding: 8 }}>
-                            {result.HasZeroTurnoverForConsecutiveMonths
-                              ? "Yes"
-                              : "No"}
-                          </td>
-                          <td style={{ padding: 8 }}>
-                            {result.ChurnRiskScore}
-                          </td>
-                          <td style={{ padding: 8 }}>
-                            {result.TrendDescription}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </Paper>
+                <ChurnResultList results={churnPredictionResults} />
               </Box>
             )}
           </Box>
