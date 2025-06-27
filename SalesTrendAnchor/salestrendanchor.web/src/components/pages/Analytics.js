@@ -185,6 +185,10 @@ function Analytics({ isDarkMode, onThemeToggle }) {
                       fontSize: 16,
                       flex: 1,
                       marginRight: 8,
+                      color: isDarkMode ? "#fff" : "#000",
+                      backgroundColor: isDarkMode ? "#222" : "#fff",
+                      border: "1px solid #555",
+                      borderRadius: 4,
                     }}
                   />
                   <IconButton
@@ -225,7 +229,13 @@ function Analytics({ isDarkMode, onThemeToggle }) {
                                   e.target.value
                                 )
                               }
-                              style={{ width: 90 }}
+                              style={{
+                                width: 90,
+                                color: isDarkMode ? "#fff" : "#000",
+                                backgroundColor: isDarkMode ? "#222" : "#fff",
+                                border: "1px solid #555",
+                                borderRadius: 4,
+                              }}
                             />
                           </td>
                           <td style={{ padding: 4 }}>
@@ -241,7 +251,13 @@ function Analytics({ isDarkMode, onThemeToggle }) {
                                   e.target.value
                                 )
                               }
-                              style={{ width: 90 }}
+                              style={{
+                                width: 90,
+                                color: isDarkMode ? "#fff" : "#000",
+                                backgroundColor: isDarkMode ? "#222" : "#fff",
+                                border: "1px solid #555",
+                                borderRadius: 4,
+                              }}
                             />
                           </td>
                         </tr>

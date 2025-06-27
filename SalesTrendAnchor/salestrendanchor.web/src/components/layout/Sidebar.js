@@ -127,7 +127,7 @@ function Sidebar({ collapsed, onCollapseChange }) {
             placement="right"
           >
             <ListItem
-              button
+              button={true}
               onClick={() => handleItemClick(item.id, item.path)}
               sx={{
                 minHeight: 48,
