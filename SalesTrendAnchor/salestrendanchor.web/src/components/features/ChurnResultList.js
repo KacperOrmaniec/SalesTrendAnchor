@@ -59,6 +59,14 @@ function ChurnResultList({ results }) {
               p: 2,
               border: "1px solid",
               borderColor: "divider",
+              cursor: "pointer",
+              transition:
+                "background-color 0.3s, box-shadow 0.3s, transform 0.2s",
+              "&:hover": {
+                bgcolor: "action.hover",
+                boxShadow: 4,
+                transform: "translateY(-2px) scale(1.01)",
+              },
             }}
           >
             <Stack
