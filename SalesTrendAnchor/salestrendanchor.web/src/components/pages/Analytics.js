@@ -17,6 +17,7 @@ import { getChurnPrediction } from "../../api/analyticsApi";
 import { useNotification } from "../common/NotificationManager";
 import dayjs from "dayjs";
 import ChurnResultList from "../features/ChurnResultList";
+import InactiveBuyersAnalysis from "../features/InactiveBuyersAnalysis";
 
 function getLast12Months() {
   const months = [];
@@ -319,6 +320,8 @@ function Analytics({ isDarkMode, onThemeToggle }) {
                 Reset Data
               </Button>
             </Box>
+            {/* Inactive Buyers Analysis Button and Output */}
+            <InactiveBuyersAnalysis salesData={analyticsData} />
 
             {churnPredictionResults && (
               <Box sx={{ mt: 4, width: "100%" }}>
