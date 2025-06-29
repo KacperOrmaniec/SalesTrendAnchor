@@ -263,11 +263,12 @@ public class SalesAnalysisService : ISalesAnalysisService
     public List<InactiveBuyerResult> IdentifyInactiveBuyers(List<ClientSalesData> salesData, int numberOfRecentMonths = 1)
     {
         var inactiveBuyers = new List<InactiveBuyerResult>();
-        var monthOrder = GetMonthOrder();
+        // var monthOrder = GetMonthOrder(); // NIEPOTRZEBNE dla YYYY-MM
 
         foreach (var clientData in salesData)
         {
-            var sortedMonths = clientData.Months.OrderByDescending(m => monthOrder.GetValueOrDefault(m.Key.ToUpper(), 0)).ToList();
+            // Zmieniamy sortowanie na klucz (YYYY-MM)
+            var sortedMonths = clientData.Months.OrderByDescending(m => m.Key).ToList();
 
             var inactiveMonthsForClient = new List<string>();
             string lastActiveMonth = null;
