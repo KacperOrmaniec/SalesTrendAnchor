@@ -18,6 +18,7 @@ import { useNotification } from "../common/NotificationManager";
 import dayjs from "dayjs";
 import ChurnResultList from "../features/ChurnResultList";
 import InactiveBuyersAnalysis from "../features/InactiveBuyersAnalysis";
+import TurnoverPredictionAnalysis from "../features/TurnoverPredictionAnalysis";
 
 function getLast12Months() {
   const months = [];
@@ -291,43 +292,70 @@ function Analytics({ isDarkMode, onThemeToggle }) {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: 2,
+              gap: 4,
             }}
           >
             <Typography variant="h4" component="h1" gutterBottom>
               Analytics Data
             </Typography>
             <AnalyticsDataTable data={analyticsData} />
-            <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleChurnPrediction}
-                disabled={loadingChurn}
-              >
-                {loadingChurn ? (
-                  <CircularProgress size={24} />
-                ) : (
-                  "Predict Churn"
-                )}
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                startIcon={<CloseIcon />}
-                onClick={handleReset}
-              >
-                Reset Data
-              </Button>
-            </Box>
-            {/* Inactive Buyers Analysis Button and Output */}
-            <InactiveBuyersAnalysis salesData={analyticsData} />
 
-            {churnPredictionResults && (
-              <Box sx={{ mt: 4, width: "100%" }}>
-                <ChurnResultList results={churnPredictionResults} />
+            {/* Churn Prediction Section */}
+            <Paper
+              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
+              elevation={3}
+            >
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                Churn Prediction
+              </Typography>
+              <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleChurnPrediction}
+                  disabled={loadingChurn}
+                >
+                  {loadingChurn ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    "Predict Churn"
+                  )}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  startIcon={<CloseIcon />}
+                  onClick={handleReset}
+                >
+                  Reset Data
+                </Button>
               </Box>
-            )}
+              {churnPredictionResults && (
+                <ChurnResultList results={churnPredictionResults} />
+              )}
+            </Paper>
+
+            {/* Inactive Buyers Section */}
+            <Paper
+              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
+              elevation={3}
+            >
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                Inactive Buyers Analysis
+              </Typography>
+              <InactiveBuyersAnalysis salesData={analyticsData} />
+            </Paper>
+
+            {/* Turnover Prediction Section */}
+            <Paper
+              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
+              elevation={3}
+            >
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                Turnover Prediction
+              </Typography>
+              <TurnoverPredictionAnalysis salesData={analyticsData} />
+            </Paper>
           </Box>
         ) : (
           <AnalyticsImportPrompt
