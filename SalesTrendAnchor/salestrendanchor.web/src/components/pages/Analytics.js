@@ -19,6 +19,8 @@ import dayjs from "dayjs";
 import ChurnResultList from "../features/ChurnResultList";
 import InactiveBuyersAnalysis from "../features/InactiveBuyersAnalysis";
 import TurnoverPredictionAnalysis from "../features/TurnoverPredictionAnalysis";
+import OverallTurnoverPredictionAnalysis from "../features/OverallTurnoverPredictionAnalysis";
+import TrendAnalysis from "../features/TrendAnalysis";
 
 function getLast12Months() {
   const months = [];
@@ -355,6 +357,28 @@ function Analytics({ isDarkMode, onThemeToggle }) {
                 Turnover Prediction
               </Typography>
               <TurnoverPredictionAnalysis salesData={analyticsData} />
+            </Paper>
+
+            {/* Overall Turnover Prediction Section */}
+            <Paper
+              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
+              elevation={3}
+            >
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                Overall Turnover Prediction
+              </Typography>
+              <OverallTurnoverPredictionAnalysis salesData={analyticsData} />
+            </Paper>
+
+            {/* Trend Analysis Section */}
+            <Paper
+              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
+              elevation={3}
+            >
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                Trend Analysis
+              </Typography>
+              <TrendAnalysis salesData={analyticsData} />
             </Paper>
           </Box>
         ) : (

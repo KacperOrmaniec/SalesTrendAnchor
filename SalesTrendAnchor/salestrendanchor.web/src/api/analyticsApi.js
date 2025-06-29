@@ -87,3 +87,59 @@ export const getTurnoverPrediction = async (salesData) => {
     throw error;
   }
 };
+
+export const getOverallTurnoverPrediction = async (salesData) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/salesanalysis/overall-turnover-prediction`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(salesData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`
+      );
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching overall turnover prediction:", error);
+    throw error;
+  }
+};
+
+export const getTrendAnalysis = async (salesData) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/salesanalysis/trend-analysis`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(salesData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`
+      );
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching trend analysis:", error);
+    throw error;
+  }
+};
