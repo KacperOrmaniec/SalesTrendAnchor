@@ -5,7 +5,7 @@ import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { useNotification } from "../common/NotificationManager";
 
-function AnalyticsImportPrompt({ onFileImported, onReset }) {
+function AnalyticsImportPrompt({ onFileImported, onReset, onManualInsert }) {
   const [error, setError] = useState(null);
   const fileInputRef = useRef();
   const [fileType, setFileType] = useState("csv");
@@ -128,6 +128,16 @@ function AnalyticsImportPrompt({ onFileImported, onReset }) {
           onChange={handleFileChange}
         />
       </Button>
+      {onManualInsert && (
+        <Button
+          variant="outlined"
+          color="success"
+          sx={{ mt: 2, fontWeight: "bold", width: 200 }}
+          onClick={onManualInsert}
+        >
+          Manual Insert
+        </Button>
+      )}
       {error && <Alert severity="error">{error}</Alert>}
     </Paper>
   );

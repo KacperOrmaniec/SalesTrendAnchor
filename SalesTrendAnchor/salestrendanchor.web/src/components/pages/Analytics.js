@@ -121,13 +121,6 @@ function Analytics({ isDarkMode, onThemeToggle }) {
         title="Analytics"
       />
       <Container maxWidth="xl" sx={{ p: 3 }}>
-        <Box
-          sx={{ mb: 2, display: "flex", justifyContent: "flex-end", gap: 2 }}
-        >
-          <Button variant="outlined" onClick={() => setManualInsertOpen(true)}>
-            Manual Insert
-          </Button>
-        </Box>
         {/* Manual Insert Modal */}
         <Modal
           open={manualInsertOpen}
@@ -302,89 +295,133 @@ function Analytics({ isDarkMode, onThemeToggle }) {
             </Typography>
             <AnalyticsDataTable data={analyticsData} />
 
-            {/* Churn Prediction Section */}
-            <Paper
-              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
-              elevation={3}
+            {/* Sekcje analiz w poziomym układzie, max 3 w rzędzie */}
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 3,
+                justifyContent: "center",
+                width: "100%",
+                mt: 2,
+                flexGrow: 1,
+              }}
             >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                Churn Prediction
-              </Typography>
-              <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleChurnPrediction}
-                  disabled={loadingChurn}
-                >
-                  {loadingChurn ? (
-                    <CircularProgress size={24} />
-                  ) : (
-                    "Predict Churn"
-                  )}
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  startIcon={<CloseIcon />}
-                  onClick={handleReset}
-                >
-                  Reset Data
-                </Button>
-              </Box>
-              {churnPredictionResults && (
-                <ChurnResultList results={churnPredictionResults} />
-              )}
-            </Paper>
+              {/* Churn Prediction Section */}
+              <Paper
+                sx={{
+                  p: 3,
+                  minWidth: 320,
+                  maxWidth: 370,
+                  flex: "1 1 30%",
+                  mb: 2,
+                }}
+                elevation={3}
+              >
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                  Churn Prediction
+                </Typography>
+                <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleChurnPrediction}
+                    disabled={loadingChurn}
+                  >
+                    {loadingChurn ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      "Predict Churn"
+                    )}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<CloseIcon />}
+                    onClick={handleReset}
+                  >
+                    Reset Data
+                  </Button>
+                </Box>
+                {churnPredictionResults && (
+                  <ChurnResultList results={churnPredictionResults} />
+                )}
+              </Paper>
 
-            {/* Inactive Buyers Section */}
-            <Paper
-              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
-              elevation={3}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                Inactive Buyers Analysis
-              </Typography>
-              <InactiveBuyersAnalysis salesData={analyticsData} />
-            </Paper>
+              {/* Inactive Buyers Section */}
+              <Paper
+                sx={{
+                  p: 3,
+                  minWidth: 320,
+                  maxWidth: 370,
+                  flex: "1 1 30%",
+                  mb: 2,
+                }}
+                elevation={3}
+              >
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                  Inactive Buyers Analysis
+                </Typography>
+                <InactiveBuyersAnalysis salesData={analyticsData} />
+              </Paper>
 
-            {/* Turnover Prediction Section */}
-            <Paper
-              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
-              elevation={3}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                Turnover Prediction
-              </Typography>
-              <TurnoverPredictionAnalysis salesData={analyticsData} />
-            </Paper>
+              {/* Turnover Prediction Section */}
+              <Paper
+                sx={{
+                  p: 3,
+                  minWidth: 320,
+                  maxWidth: 370,
+                  flex: "1 1 30%",
+                  mb: 2,
+                }}
+                elevation={3}
+              >
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                  Turnover Prediction
+                </Typography>
+                <TurnoverPredictionAnalysis salesData={analyticsData} />
+              </Paper>
 
-            {/* Overall Turnover Prediction Section */}
-            <Paper
-              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
-              elevation={3}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                Overall Turnover Prediction
-              </Typography>
-              <OverallTurnoverPredictionAnalysis salesData={analyticsData} />
-            </Paper>
+              {/* Overall Turnover Prediction Section */}
+              <Paper
+                sx={{
+                  p: 3,
+                  minWidth: 320,
+                  maxWidth: 370,
+                  flex: "1 1 30%",
+                  mb: 2,
+                }}
+                elevation={3}
+              >
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                  Overall Turnover Prediction
+                </Typography>
+                <OverallTurnoverPredictionAnalysis salesData={analyticsData} />
+              </Paper>
 
-            {/* Trend Analysis Section */}
-            <Paper
-              sx={{ p: 3, width: "100%", maxWidth: 700, mb: 2 }}
-              elevation={3}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
-                Trend Analysis
-              </Typography>
-              <TrendAnalysis salesData={analyticsData} />
-            </Paper>
+              {/* Trend Analysis Section */}
+              <Paper
+                sx={{
+                  p: 3,
+                  minWidth: 320,
+                  maxWidth: 370,
+                  flex: "1 1 30%",
+                  mb: 2,
+                }}
+                elevation={3}
+              >
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+                  Trend Analysis
+                </Typography>
+                <TrendAnalysis salesData={analyticsData} />
+              </Paper>
+            </Box>
           </Box>
         ) : (
           <AnalyticsImportPrompt
             onFileImported={handleFileImported}
             onReset={handleReset}
+            onManualInsert={() => setManualInsertOpen(true)}
           />
         )}
       </Container>
