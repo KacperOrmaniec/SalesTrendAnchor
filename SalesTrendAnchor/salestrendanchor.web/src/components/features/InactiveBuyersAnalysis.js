@@ -1,7 +1,21 @@
 import React, { useState } from "react";
-import { Button, Box, CircularProgress, Alert } from "@mui/material";
+import {
+  Button,
+  Box,
+  CircularProgress,
+  Alert,
+  Paper,
+  List,
+  ListItem,
+  Typography,
+  Chip,
+  Stack,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import { getInactiveBuyers } from "../../api/analyticsApi";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 function InactiveBuyersAnalysis({ salesData }) {
   const [inactiveData, setInactiveData] = useState([]);
@@ -42,9 +56,92 @@ function InactiveBuyersAnalysis({ salesData }) {
         </Alert>
       )}
       {inactiveData && inactiveData.length > 0 && (
-        <Box sx={{ mt: 2 }}>
-          <pre>{JSON.stringify(inactiveData, null, 2)}</pre>
-        </Box>
+        <Paper
+          elevation={3}
+          sx={{
+            p: 3,
+            maxHeight: 600,
+            overflowY: "auto",
+            minWidth: 320,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            mt: 2,
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+            Inactive Buyers Results
+          </Typography>
+          <List disablePadding>
+            {inactiveData.map((item, idx) => (
+              <ListItem
+                key={idx}
+                sx={{
+                  mb: 2,
+                  borderRadius: 2,
+                  boxShadow: 1,
+                  bgcolor: "background.default",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  p: 2,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  transition:
+                    "background-color 0.3s, box-shadow 0.3s, transform 0.2s",
+                  "&:hover": {
+                    bgcolor: "action.hover",
+                    boxShadow: 4,
+                    transform: "translateY(-2px) scale(1.01)",
+                  },
+                }}
+              >
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  sx={{ width: "100%", mb: 1 }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "bold", flex: 1 }}
+                  >
+                    <PersonOffIcon sx={{ mr: 1, verticalAlign: "middle" }} />
+                    {item.client}
+                  </Typography>
+                  <Chip
+                    icon={<CalendarMonthIcon />}
+                    label={`Inactive: ${item.inactiveMonths.length} month(s)`}
+                    color="warning"
+                    size="small"
+                  />
+                </Stack>
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                  Inactive months: {item.inactiveMonths.join(", ")}
+                </Typography>
+                <Stack direction="row" spacing={1}>
+                  <Chip
+                    icon={<CalendarMonthIcon />}
+                    label={
+                      item.lastActiveMonth
+                        ? `Last Active: ${item.lastActiveMonth}`
+                        : "No recent activity"
+                    }
+                    color={item.lastActiveMonth ? "info" : "default"}
+                    size="small"
+                    clickable={false}
+                  />
+                  <Chip
+                    icon={<MonetizationOnIcon />}
+                    label={`Last Turnover: ${item.lastActiveTurnover}`}
+                    color={item.lastActiveTurnover > 0 ? "success" : "default"}
+                    size="small"
+                    clickable={false}
+                  />
+                </Stack>
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
       )}
     </Box>
   );
