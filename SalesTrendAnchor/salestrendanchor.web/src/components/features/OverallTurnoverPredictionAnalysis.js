@@ -53,22 +53,39 @@ function OverallTurnoverPredictionAnalysis({ salesData }) {
           sx={{
             p: 3,
             maxWidth: 400,
+            minWidth: 320,
+            mx: "auto",
             mt: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 2,
+            wordBreak: "break-word",
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: "bold", mb: 1, wordBreak: "break-word" }}
+          >
             Overall Turnover Prediction Result
           </Typography>
-          <Stack direction="row" alignItems="center" spacing={2}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            sx={{ width: "100%" }}
+          >
             <Chip
               icon={<TrendingUpIcon />}
               label={`Predicted Next Month: ${prediction.predictedOverallNextMonthTurnover}`}
               color="primary"
               size="medium"
+              sx={{
+                wordBreak: "break-word",
+                maxWidth: 220,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
             />
           </Stack>
         </Paper>

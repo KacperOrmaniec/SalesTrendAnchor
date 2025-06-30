@@ -61,15 +61,20 @@ function InactiveBuyersAnalysis({ salesData }) {
           sx={{
             p: 3,
             maxHeight: 600,
-            overflowY: "auto",
             minWidth: 320,
+            maxWidth: 420,
+            overflowY: "auto",
             display: "flex",
             flexDirection: "column",
             gap: 2,
             mt: 2,
+            mx: "auto",
           }}
         >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2, fontWeight: "bold", wordBreak: "break-word" }}
+          >
             Inactive Buyers Results
           </Typography>
           <List disablePadding>
@@ -93,6 +98,10 @@ function InactiveBuyersAnalysis({ salesData }) {
                     boxShadow: 4,
                     transform: "translateY(-2px) scale(1.01)",
                   },
+                  width: "100%",
+                  maxWidth: 370,
+                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
                 }}
               >
                 <Stack
@@ -103,7 +112,7 @@ function InactiveBuyersAnalysis({ salesData }) {
                 >
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "bold", flex: 1 }}
+                    sx={{ fontWeight: "bold", flex: 1, wordBreak: "break-all" }}
                   >
                     <PersonOffIcon sx={{ mr: 1, verticalAlign: "middle" }} />
                     {item.client}
@@ -115,7 +124,10 @@ function InactiveBuyersAnalysis({ salesData }) {
                     size="small"
                   />
                 </Stack>
-                <Typography variant="body2" sx={{ mb: 1 }}>
+                <Typography
+                  variant="body2"
+                  sx={{ mb: 1, wordBreak: "break-word" }}
+                >
                   Inactive months: {item.inactiveMonths.join(", ")}
                 </Typography>
                 <Stack direction="row" spacing={1}>

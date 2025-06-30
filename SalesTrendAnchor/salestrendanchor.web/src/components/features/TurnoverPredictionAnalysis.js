@@ -60,15 +60,20 @@ function TurnoverPredictionAnalysis({ salesData }) {
           sx={{
             p: 3,
             maxHeight: 600,
-            overflowY: "auto",
             minWidth: 320,
+            maxWidth: 420,
+            overflowY: "auto",
             display: "flex",
             flexDirection: "column",
             gap: 2,
             mt: 2,
+            mx: "auto",
           }}
         >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2, fontWeight: "bold", wordBreak: "break-word" }}
+          >
             Turnover Prediction Results
           </Typography>
           <List disablePadding>
@@ -92,6 +97,10 @@ function TurnoverPredictionAnalysis({ salesData }) {
                     boxShadow: 4,
                     transform: "translateY(-2px) scale(1.01)",
                   },
+                  width: "100%",
+                  maxWidth: 370,
+                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
                 }}
               >
                 <Stack
@@ -102,7 +111,7 @@ function TurnoverPredictionAnalysis({ salesData }) {
                 >
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "bold", flex: 1 }}
+                    sx={{ fontWeight: "bold", flex: 1, wordBreak: "break-all" }}
                   >
                     <PersonIcon sx={{ mr: 1, verticalAlign: "middle" }} />
                     {item.client}
@@ -112,6 +121,12 @@ function TurnoverPredictionAnalysis({ salesData }) {
                     label={`Predicted: ${item.predictedNextMonthTurnover}`}
                     color="primary"
                     size="small"
+                    sx={{
+                      wordBreak: "break-word",
+                      maxWidth: 140,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
                   />
                 </Stack>
               </ListItem>

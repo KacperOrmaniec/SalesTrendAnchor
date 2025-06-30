@@ -35,14 +35,19 @@ function ChurnResultList({ results }) {
       sx={{
         p: 3,
         maxHeight: 600,
-        overflowY: "auto",
         minWidth: 320,
+        maxWidth: 420,
+        overflowY: "auto",
         display: "flex",
         flexDirection: "column",
         gap: 2,
+        mx: "auto",
       }}
     >
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+      <Typography
+        variant="h6"
+        sx={{ mb: 2, fontWeight: "bold", wordBreak: "break-word" }}
+      >
         Churn Prediction Results
       </Typography>
       <List disablePadding>
@@ -67,6 +72,10 @@ function ChurnResultList({ results }) {
                 boxShadow: 4,
                 transform: "translateY(-2px) scale(1.01)",
               },
+              width: "100%",
+              maxWidth: 370,
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
             }}
           >
             <Stack
@@ -77,7 +86,7 @@ function ChurnResultList({ results }) {
             >
               <Typography
                 variant="subtitle1"
-                sx={{ fontWeight: "bold", flex: 1 }}
+                sx={{ fontWeight: "bold", flex: 1, wordBreak: "break-all" }}
               >
                 {item.client}
               </Typography>
@@ -88,10 +97,14 @@ function ChurnResultList({ results }) {
                   color: "#fff",
                   fontWeight: "bold",
                   fontSize: 14,
+                  wordBreak: "break-word",
+                  maxWidth: 120,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               />
             </Stack>
-            <Typography variant="body2" sx={{ mb: 1 }}>
+            <Typography variant="body2" sx={{ mb: 1, wordBreak: "break-word" }}>
               {item.trendDescription}
             </Typography>
             <Stack direction="row" spacing={1}>
@@ -107,6 +120,12 @@ function ChurnResultList({ results }) {
                 color={item.isLosingBuyer ? "error" : "success"}
                 size="small"
                 variant={item.isLosingBuyer ? "filled" : "outlined"}
+                sx={{
+                  wordBreak: "break-word",
+                  maxWidth: 120,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               />
               <Chip
                 icon={
@@ -130,6 +149,12 @@ function ChurnResultList({ results }) {
                     ? "filled"
                     : "outlined"
                 }
+                sx={{
+                  wordBreak: "break-word",
+                  maxWidth: 140,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               />
             </Stack>
           </ListItem>
