@@ -102,21 +102,6 @@ function Sidebar({ collapsed, onCollapseChange }) {
         >
           KO
         </Avatar>
-        <Box
-          sx={{
-            color: "text.primary",
-            transition: "opacity 0.3s ease-in-out",
-            opacity: collapsed ? 0 : 1,
-            width: `${TEXT_CONTAINER_WIDTH}px`,
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            ml: 1,
-            display: "inline-block",
-          }}
-          aria-hidden={collapsed}
-        >
-          logo
-        </Box>
       </Box>
 
       <List sx={{ flexGrow: 1, pt: 2 }}>
